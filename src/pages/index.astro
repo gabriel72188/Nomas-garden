@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+import PlatoCard from '../components/PlatoCard.astro';
+
+// 1. Traemos la variable de entorno de forma segura
+const API_URL = import.meta.env.WP_API_URL;
+
+// 2. Traemos los Platos usando la variable
+const resPlatos = await fetch(`${API_URL}/plato?_embed`);
+const platos = await resPlatos.json();
+
+// 3. Traemos los Alérgenos usando la variable
+const resAlergenos = await fetch(`${API_URL}/alergeno?acf_format=standard`);
+const alergenosData = await resAlergenos.json();
+
+// 4. Creamos un diccionario automático { ID: { url: "...", nombre: "..." } }
+const infoAlergenos = {};
+alergenosData.forEach(alergeno => {
+  infoAlergenos[alergeno.id] = {
+    url: alergeno.acf?.icono || null,
+    nombre: alergeno.name || "Alérgeno" 
+  }; 
+});
+
+console.log("Diccionario de alérgenos:", infoAlergenos);
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Menú Sushi</title>
+  </head>
+  <body class="bg-[#111111] text-white min-h-screen p-8 font-sans">
+    
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold mb-2">Yūboku</h1>
+      <p class="text-gray-400 mb-10">Sushi bar</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        {platos.map((plato) => {
+          const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+
+          return (
+            <PlatoCard 
+              plato={plato} 
+              imagenUrl={imagenUrl} 
+              infoAlergenos={infoAlergenos} 
+            />
+          );
+        })}
+
+      </div>
+    </div>
+
+  </body>
+</html>

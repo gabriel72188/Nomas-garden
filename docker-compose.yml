@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  nomas-garden-front:
+    image: nginx:alpine
+    container_name: nomas_garden_static
+    restart: unless-stopped
+    ports:
+      - "8091:80" 
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro

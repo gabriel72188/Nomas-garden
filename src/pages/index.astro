@@ -2,18 +2,35 @@
 import '../styles/global.css';
 import PlatoCard from '../components/PlatoCard.astro';
 
-// 1. Traemos la variable de entorno de forma segura
+// 1. URL de la API
 const API_URL = import.meta.env.WP_API_URL;
 
-// 2. Traemos los Platos usando la variable
-const resPlatos = await fetch(`${API_URL}/plato?_embed`);
+// 2. Traemos todos los Platos (añadimos per_page=100 para que no se deje ninguno fuera)
+const resPlatos = await fetch(`${API_URL}/plato?_embed&per_page=100`);
 const platos = await resPlatos.json();
 
-// 3. Traemos los Alérgenos usando la variable
-const resAlergenos = await fetch(`${API_URL}/alergeno?acf_format=standard`);
+// 3. Traemos las Categorías de los platos 
+const resCategorias = await fetch(`${API_URL}/categoria_plato?per_page=100&acf_format=standard`);
+let categorias = await resCategorias.json();
+
+// ORDENAMOS LAS CATEGORÍAS SEGÚN TU CAMPO DE ACF
+categorias.sort((a, b) => {
+  const ordenA = a.acf?.orden ? parseInt(a.acf.orden) : 99;
+  const ordenB = b.acf?.orden ? parseInt(b.acf.orden) : 99;
+  return ordenA - ordenB;
+});
+
+// Esto para ver si está funcionando:
+console.log("--- DEBUG DE CATEGORÍAS ---");
+categorias.forEach(cat => {
+  console.log(`Categoría: ${cat.name}`);
+  console.log(`Datos ACF que llegan:`, cat.acf);
+});
+console.log("---------------------------");
+// 4. Traemos los Alérgenos
+const resAlergenos = await fetch(`${API_URL}/alergeno?acf_format=standard&per_page=100`);
 const alergenosData = await resAlergenos.json();
 
-// 4. Creamos un diccionario automático { ID: { url: "...", nombre: "..." } }
 const infoAlergenos = {};
 alergenosData.forEach(alergeno => {
   infoAlergenos[alergeno.id] = {
@@ -21,37 +38,56 @@ alergenosData.forEach(alergeno => {
     nombre: alergeno.name || "Alérgeno" 
   }; 
 });
-
-console.log("Diccionario de alérgenos:", infoAlergenos);
 ---
 
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Menú Sushi</title>
+    <title>Menú Digital</title>
   </head>
   <body class="bg-[#111111] text-white min-h-screen p-8 font-sans">
     
     <div class="max-w-6xl mx-auto">
-      <h1 class="text-3xl font-bold mb-2">Yūboku</h1>
-      <p class="text-gray-400 mb-10">Sushi bar</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      {/* BUCLE DE CATEGORÍAS */}
+      {categorias.map(categoria => {
         
-        {platos.map((plato) => {
-          const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+        // Buscamos qué platos pertenecen a esta categoría en concreto
+        const platosDeEstaCategoria = platos.filter(plato => 
+          plato.categoria_plato && plato.categoria_plato.includes(categoria.id)
+        );
 
-          return (
-            <PlatoCard 
-              plato={plato} 
-              imagenUrl={imagenUrl} 
-              infoAlergenos={infoAlergenos} 
-            />
-          );
-        })}
+        // Si una categoría no tiene platos todavía, no dibujamos la sección para no dejar un hueco vacío
+        if (platosDeEstaCategoria.length === 0) return null;
 
-      </div>
+        return (
+          <div class="mb-16">
+            
+            {/* Título y Descripción dinámicos desde WordPress */}
+            <h1 class="text-3xl font-bold mb-2">{categoria.name}</h1>
+            {categoria.description && (
+              <p class="text-gray-400 mb-10">{categoria.description}</p>
+            )}
+
+            {/* Grid de platos para esta categoría */}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {platosDeEstaCategoria.map((plato) => {
+                const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                return (
+                  <PlatoCard 
+                    plato={plato} 
+                    imagenUrl={imagenUrl} 
+                    infoAlergenos={infoAlergenos} 
+                  />
+                );
+              })}
+            </div>
+
+          </div>
+        );
+      })}
+
     </div>
 
   </body>

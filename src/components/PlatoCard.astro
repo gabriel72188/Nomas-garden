@@ -1,29 +1,32 @@
 ---
 const { plato, imagenUrl, infoAlergenos } = Astro.props;
 
-// 1. Creamos un ID único para el modal de este plato usando el ID de WordPress
+// 1. ID único para el modal
 const modalId = `modal-${plato.id}`;
 
 // 2. Extraemos los datos de ACF y preparamos las variaciones
 const acf = plato.acf || {};
 let variaciones = [];
 
-// Revisamos hasta 4 posibles grupos (opcion_1, opcion_2, opcion_3, opcion_4)
 for (let i = 1; i <= 4; i++) {
   const opcion = acf[`opcion_${i}`];
-  // Si el grupo existe y tiene rellenado el tamaño y el precio, lo guardamos
   if (opcion && opcion.tamano && opcion.precio) {
-    variaciones.push({
-      cantidad: opcion.tamano,
-      precio: opcion.precio
-    });
+    variaciones.push({ cantidad: opcion.tamano, precio: opcion.precio });
   }
 }
 
-// 3. Calculamos qué precio mostrar en la tarjeta principal
-const precioMostrar = variaciones.length > 0 
-  ? `desde € ${variaciones[0].precio}` 
-  : `€ ${acf.precio || '0'}`;
+// 3. Recolectamos los extras (hasta 4 posibles)
+let extras = [];
+for (let i = 1; i <= 4; i++) {
+  const objExtra = acf[`extra_${i}`];
+  // Ahora buscamos 'extra' en lugar de 'nombre'
+  if (objExtra && objExtra.extra && objExtra.precio) {
+    extras.push({
+      nombre: objExtra.extra,
+      precio: objExtra.precio
+    });
+  }
+}
 ---
 
 <div 
@@ -46,7 +49,7 @@ const precioMostrar = variaciones.length > 0
           const alergeno = infoAlergenos[id];
           return alergeno?.url ? (
             <div class="relative group flex justify-center focus:outline-none" tabindex="0">
-              <img src={alergeno.url} alt={alergeno.nombre} class="w-5 h-5 object-contain cursor-help" />
+              <img src={alergeno.url} alt={alergeno.nombre} class="w-4 h-4 object-contain cursor-help" />
               <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] text-white text-xs font-medium py-1 px-2 rounded-md border border-gray-700 whitespace-nowrap z-20 shadow-lg">
                 {alergeno.nombre}
               </div>
@@ -56,13 +59,16 @@ const precioMostrar = variaciones.length > 0
       </div>
     )}
 
-    <p class="text-sm font-semibold mt-auto text-gray-200">{precioMostrar}</p>
+    <div class="mt-auto">
+      {variaciones.length > 0 && <span class="text-xs text-gray-400 block mb-0.5">desde</span>}
+      <p class="text-sm font-semibold text-gray-200">€ {acf.precio || '0'}</p>
+    </div>
   </div>
 </div>
 
 <dialog 
   id={modalId} 
-  class="bg-[#1c1c1e] text-white p-6 rounded-2xl w-[90%] max-w-3xl backdrop:bg-black/80 backdrop:backdrop-blur-sm m-auto shadow-2xl"
+  class="bg-[#1c1c1e] text-white p-6 rounded-2xl w-[90%] max-w-5xl backdrop:bg-black/80 backdrop:backdrop-blur-sm m-auto shadow-2xl"
 >
   <button 
     data-modal-close={modalId} 
@@ -71,19 +77,22 @@ const precioMostrar = variaciones.length > 0
     &times;
   </button>
 
-  <div class="flex flex-col md:flex-row gap-6 mt-4">
-    <div class="w-full md:w-1/2">
+  <h2 class="text-3xl font-bold mb-4 mt-2 pr-10">{plato.title.rendered}</h2>
+
+  <div class="flex flex-col md:flex-row gap-6">
+    <div class="w-full md:w-1/2 md:self-start">
       {imagenUrl ? (
-        <img src={imagenUrl} alt={plato.title.rendered} class="w-full h-64 md:h-full object-cover rounded-xl" />
+        <img src={imagenUrl} alt={plato.title.rendered} class="w-full h-64 md:h-auto md:aspect-square object-cover rounded-xl" />
       ) : (
-        <div class="w-full h-64 bg-gray-800 rounded-xl"></div>
+        <div class="w-full h-64 md:h-auto md:aspect-square bg-gray-800 rounded-xl"></div>
       )}
     </div>
 
     <div class="w-full md:w-1/2 flex flex-col">
-      <h2 class="text-2xl font-bold mb-2">{plato.title.rendered}</h2>
-      
-      <p class="text-xl font-semibold mb-4 text-gray-300">{precioMostrar}</p>
+      <div class="mb-4">
+        {variaciones.length > 0 && <span class="text-sm text-gray-400 block mb-0.5">desde</span>}
+        <p class="text-xl font-semibold text-gray-300">€ {acf.precio || '0'}</p>
+      </div>
       
       <div class="text-gray-400 mb-6" set:html={plato.content.rendered}></div>
 
@@ -95,7 +104,7 @@ const precioMostrar = variaciones.length > 0
               const alergeno = infoAlergenos[id];
               return alergeno?.url ? (
                 <div class="relative group flex justify-center focus:outline-none" tabindex="0">
-                  <img src={alergeno.url} alt={alergeno.nombre} class="w-8 h-8 object-contain cursor-help" />
+                  <img src={alergeno.url} alt={alergeno.nombre} class="w-5 h-5 object-contain cursor-help" />
                   <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] text-white text-sm font-medium py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
                     {alergeno.nombre}
                   </div>
@@ -107,30 +116,44 @@ const precioMostrar = variaciones.length > 0
       )}
 
       {variaciones.length > 0 && (
-        <div class="mt-auto">
-          <div class="flex items-center mb-3">
-            <p class="text-white font-bold text-base">Elige el tamaño</p>
-            <span class="bg-orange-600 text-white text-[10px] font-bold px-2 py-0.5 rounded ml-3 uppercase tracking-wider">Obligatorio</span>
-          </div>
+        <details class="group mt-auto" open>
+          <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <p class="text-gray-200 font-medium text-base">Elige el tamaño</p>
+            <div class="flex items-center gap-3">
+              <span class="bg-[#ff6900] text-white text-[11px] font-bold px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">Obligatorio</span>
+              <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
+            </div>
+          </summary>
           
-          <div class="flex flex-col border border-gray-700 rounded-lg overflow-hidden">
-            {variaciones.map((opcion, index) => (
-              <label class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-gray-800 cursor-pointer transition">
-                <div class="flex items-center gap-3">
-                  <input 
-                    type="radio" 
-                    name={`tamano_${plato.id}`} 
-                    value={opcion.cantidad} 
-                    checked={index === 0}
-                    class="w-5 h-5 text-orange-500 bg-gray-900 border-gray-600 focus:ring-orange-500 focus:ring-offset-gray-900" 
-                  />
-                  <span class="text-gray-200 font-medium">{opcion.cantidad}</span>
-                </div>
+          <div class="flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
+            {variaciones.map((opcion) => (
+              <div class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-[#252528] transition-colors">
+                <span class="text-gray-200">{opcion.cantidad}</span>
                 <span class="text-gray-400">€ {opcion.precio}</span>
-              </label>
+              </div>
             ))}
           </div>
-        </div>
+        </details>
+      )}
+
+      {extras.length > 0 && (
+        <details class="group mt-4" open>
+          <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <p class="text-gray-200 font-medium text-base">Extras</p>
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
+            </div>
+          </summary>
+          
+          <div class="flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
+            {extras.map((extra) => (
+              <div class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-[#252528] transition-colors">
+                <span class="text-gray-200">{extra.nombre}</span>
+                <span class="text-gray-400">+ € {extra.precio}</span>
+              </div>
+            ))}
+          </div>
+        </details>
       )}
       
     </div>
@@ -144,7 +167,6 @@ const precioMostrar = variaciones.length > 0
     const tarjetas = document.querySelectorAll('[data-modal-target]');
     tarjetas.forEach(tarjeta => {
       tarjeta.addEventListener('click', (e) => {
-        // Evitamos abrir el modal si hacemos clic en el icono de alérgeno
         if ((e.target as HTMLElement).closest('.group')) return;
 
         const modalId = tarjeta.getAttribute('data-modal-target');

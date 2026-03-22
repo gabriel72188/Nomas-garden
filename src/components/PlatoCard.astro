@@ -19,7 +19,6 @@ for (let i = 1; i <= 4; i++) {
 let extras = [];
 for (let i = 1; i <= 4; i++) {
   const objExtra = acf[`extra_${i}`];
-  // Ahora buscamos 'extra' en lugar de 'nombre'
   if (objExtra && objExtra.extra && objExtra.precio) {
     extras.push({
       nombre: objExtra.extra,
@@ -33,24 +32,23 @@ for (let i = 1; i <= 4; i++) {
   class="bg-[#1c1c1e] rounded-xl p-4 flex gap-4 hover:bg-[#252528] transition-colors cursor-pointer border border-transparent hover:border-gray-700 h-full relative"
   data-modal-target={modalId}
 >
-  {imagenUrl ? (
+  {imagenUrl && (
     <img src={imagenUrl} alt={plato.title.rendered} class="w-24 h-24 object-cover rounded-lg flex-shrink-0" />
-  ) : (
-    <div class="w-24 h-24 bg-gray-800 rounded-lg flex-shrink-0"></div>
   )}
 
   <div class="flex-1 flex flex-col">
-    <h2 class="font-bold text-lg leading-tight mb-1">{plato.title.rendered}</h2>
-    <div class="text-sm text-gray-400 line-clamp-2" set:html={plato.content.rendered}></div>
+    <h2 class="font-bebas text-2xl tracking-wide leading-tight mb-1">{plato.title.rendered}</h2>
+    
+    <div class="font-inco text-sm text-gray-400 line-clamp-2 leading-relaxed" set:html={plato.content.rendered}></div>
     
     {plato.alergeno && plato.alergeno.length > 0 && (
-      <div class="flex gap-2 mt-2 mb-2">
+      <div class="flex gap-1 mt-2 mb-2">
         {plato.alergeno.map(id => {
           const alergeno = infoAlergenos[id];
           return alergeno?.url ? (
             <div class="relative group flex justify-center focus:outline-none" tabindex="0">
               <img src={alergeno.url} alt={alergeno.nombre} class="w-4 h-4 object-contain cursor-help" />
-              <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] text-white text-xs font-medium py-1 px-2 rounded-md border border-gray-700 whitespace-nowrap z-20 shadow-lg">
+              <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] font-inco text-white text-xs py-1 px-2 rounded-md border border-gray-700 whitespace-nowrap z-20 shadow-lg">
                 {alergeno.nombre}
               </div>
             </div>
@@ -60,8 +58,8 @@ for (let i = 1; i <= 4; i++) {
     )}
 
     <div class="mt-auto">
-      {variaciones.length > 0 && <span class="text-xs text-gray-400 block mb-0.5">desde</span>}
-      <p class="text-sm font-semibold text-gray-200">€ {acf.precio || '0'}</p>
+      {variaciones.length > 0 && <span class="font-bebas tracking-wider text-sm text-gray-400 block mb-0.5 uppercase">desde</span>}
+      <p class="font-bebas text-xl tracking-wider text-gray-200"> {acf.precio || '0'} €</p>
     </div>
   </div>
 </div>
@@ -77,35 +75,33 @@ for (let i = 1; i <= 4; i++) {
     &times;
   </button>
 
-  <h2 class="text-3xl font-bold mb-4 mt-2 pr-10">{plato.title.rendered}</h2>
+  <h2 class="font-bebas text-4xl tracking-wide mb-4 mt-2 pr-10">{plato.title.rendered}</h2>
 
   <div class="flex flex-col md:flex-row gap-6">
-    <div class="w-full md:w-1/2 md:self-start">
-      {imagenUrl ? (
+    {imagenUrl && (
+      <div class="w-full md:w-1/2 md:self-start flex-shrink-0">
         <img src={imagenUrl} alt={plato.title.rendered} class="w-full h-64 md:h-auto md:aspect-square object-cover rounded-xl" />
-      ) : (
-        <div class="w-full h-64 md:h-auto md:aspect-square bg-gray-800 rounded-xl"></div>
-      )}
-    </div>
+      </div>
+    )}
 
-    <div class="w-full md:w-1/2 flex flex-col">
+    <div class="flex-1 flex flex-col">
       <div class="mb-4">
-        {variaciones.length > 0 && <span class="text-sm text-gray-400 block mb-0.5">desde</span>}
-        <p class="text-xl font-semibold text-gray-300">€ {acf.precio || '0'}</p>
+        {variaciones.length > 0 && <span class="font-bebas tracking-wider text-base text-gray-400 block mb-0.5 uppercase">desde</span>}
+        <p class="font-bebas text-3xl tracking-wider text-gray-300"> {acf.precio || '0'} €</p>
       </div>
       
-      <div class="text-gray-400 mb-6" set:html={plato.content.rendered}></div>
+      <div class="font-inco text-base text-gray-400 mb-6 leading-relaxed" set:html={plato.content.rendered}></div>
 
       {plato.alergeno && plato.alergeno.length > 0 && (
         <div class="mb-6">
-          <p class="text-sm font-bold text-gray-300 mb-3">Alérgenos</p>
-          <div class="flex gap-2">
+          <p class="font-bebas tracking-wider text-xl text-gray-300 mb-3 uppercase">Alérgenos</p>
+          <div class="flex gap-1">
             {plato.alergeno.map(id => {
               const alergeno = infoAlergenos[id];
               return alergeno?.url ? (
                 <div class="relative group flex justify-center focus:outline-none" tabindex="0">
                   <img src={alergeno.url} alt={alergeno.nombre} class="w-5 h-5 object-contain cursor-help" />
-                  <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] text-white text-sm font-medium py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
+                  <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] font-inco text-white text-sm py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
                     {alergeno.nombre}
                   </div>
                 </div>
@@ -118,18 +114,17 @@ for (let i = 1; i <= 4; i++) {
       {variaciones.length > 0 && (
         <details class="group mt-auto" open>
           <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <p class="text-gray-200 font-medium text-base">Elige el tamaño</p>
-            <div class="flex items-center gap-3">
-              <span class="bg-[#ff6900] text-white text-[11px] font-bold px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">Obligatorio</span>
+            <p class="font-bebas tracking-wider uppercase text-gray-200 text-xl">Elige el tamaño</p>            <div class="flex items-center gap-3">
+              <span class="bg-[#ff6900] font-bebas text-white text-sm px-2 py-0.5 rounded shadow-sm tracking-widest">Obligatorio</span>
               <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
             </div>
           </summary>
           
-          <div class="flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
+          <div class="font-inco flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
             {variaciones.map((opcion) => (
               <div class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-[#252528] transition-colors">
                 <span class="text-gray-200">{opcion.cantidad}</span>
-                <span class="text-gray-400">€ {opcion.precio}</span>
+                <span class="text-gray-400"> {opcion.precio} €</span>
               </div>
             ))}
           </div>
@@ -139,17 +134,16 @@ for (let i = 1; i <= 4; i++) {
       {extras.length > 0 && (
         <details class="group mt-4" open>
           <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <p class="text-gray-200 font-medium text-base">Extras</p>
-            <div class="flex items-center gap-3">
+            <p class="font-bebas tracking-wider uppercase text-gray-200 text-xl">Extras</p>            <div class="flex items-center gap-3">
               <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
             </div>
           </summary>
           
-          <div class="flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
+          <div class="font-inco flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
             {extras.map((extra) => (
               <div class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-[#252528] transition-colors">
                 <span class="text-gray-200">{extra.nombre}</span>
-                <span class="text-gray-400">+ € {extra.precio}</span>
+                <span class="text-gray-400">+ {extra.precio} €</span>
               </div>
             ))}
           </div>

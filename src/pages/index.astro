@@ -45,6 +45,10 @@ alergenosData.forEach(alergeno => {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Menú Digital</title>
+    {/*  IMPORTAMOS LAS FUENTES AQUÍ  */}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inconsolata:wght@300;400;500;700&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#111111] text-white min-h-screen p-8 font-sans">
     
@@ -65,9 +69,9 @@ alergenosData.forEach(alergeno => {
           <div class="mb-16">
             
             {/* Título y Descripción dinámicos desde WordPress */}
-            <h1 class="text-3xl font-bold mb-2">{categoria.name}</h1>
+            <h1 class="font-bebas text-5xl tracking-wide mb-2">{categoria.name}</h1>
             {categoria.description && (
-              <p class="text-gray-400 mb-10">{categoria.description}</p>
+              <p class="font-bebas text-xl tracking-wide text-gray-400 mb-10 uppercase">{categoria.description}</p>
             )}
 
             {/* Grid de platos para esta categoría */}

@@ -29,7 +29,7 @@ for (let i = 1; i <= 4; i++) {
 ---
 
 <div 
-  class="bg-[#1c1c1e] rounded-xl p-4 flex gap-4 hover:bg-[#252528] transition-colors cursor-pointer border border-transparent hover:border-gray-700 h-full relative"
+  class="bg-[#f0ece5] rounded-xl p-4 flex gap-4 hover:bg-[#e8e4dc] transition-colors cursor-pointer border border-[#e2ddd3] shadow-sm h-full relative"
   data-modal-target={modalId}
 >
   {imagenUrl && (
@@ -37,9 +37,9 @@ for (let i = 1; i <= 4; i++) {
   )}
 
   <div class="flex-1 flex flex-col">
-    <h2 class="font-bebas text-2xl tracking-wide leading-tight mb-1">{plato.title.rendered}</h2>
+    <h2 class="font-bebas text-2xl tracking-wide leading-tight mb-1 text-gray-950">{plato.title.rendered}</h2>
     
-    <div class="font-inco text-sm text-gray-400 line-clamp-2 leading-relaxed" set:html={plato.content.rendered}></div>
+    <div class="font-inco text-sm text-gray-700 line-clamp-2 leading-relaxed" set:html={plato.content.rendered}></div>
     
     {plato.alergeno && plato.alergeno.length > 0 && (
       <div class="flex gap-1 mt-2 mb-2">
@@ -48,7 +48,7 @@ for (let i = 1; i <= 4; i++) {
           return alergeno?.url ? (
             <div class="relative group flex justify-center focus:outline-none" tabindex="0">
               <img src={alergeno.url} alt={alergeno.nombre} class="w-4 h-4 object-contain cursor-help" />
-              <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] font-inco text-white text-xs py-1 px-2 rounded-md border border-gray-700 whitespace-nowrap z-20 shadow-lg">
+              <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-gray-900 font-inco text-white text-xs py-1 px-2 rounded-md border border-gray-600 whitespace-nowrap z-20 shadow-lg">
                 {alergeno.nombre}
               </div>
             </div>
@@ -58,24 +58,24 @@ for (let i = 1; i <= 4; i++) {
     )}
 
     <div class="mt-auto">
-      {variaciones.length > 0 && <span class="font-bebas tracking-wider text-sm text-gray-400 block mb-0.5 uppercase">desde</span>}
-      <p class="font-bebas text-xl tracking-wider text-gray-200"> {acf.precio || '0'} €</p>
+      {variaciones.length > 0 && <span class="font-bebas tracking-wider text-sm text-gray-600 block mb-0.5 uppercase">desde</span>}
+      <p class="font-bebas text-xl tracking-wider text-gray-950">{acf.precio || '0'} €</p>
     </div>
   </div>
 </div>
 
 <dialog 
   id={modalId} 
-  class="bg-[#1c1c1e] text-white p-6 rounded-2xl w-[90%] max-w-5xl backdrop:bg-black/80 backdrop:backdrop-blur-sm m-auto shadow-2xl"
+  class="bg-[#f0ece5] text-gray-950 p-6 rounded-2xl w-[90%] max-w-5xl backdrop:bg-black/60 backdrop:backdrop-blur-sm m-auto shadow-2xl"
 >
   <button 
     data-modal-close={modalId} 
-    class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl leading-none cursor-pointer bg-transparent border-none outline-none z-10"
+    class="absolute top-4 right-4 text-gray-500 hover:text-black text-3xl leading-none cursor-pointer bg-transparent border-none outline-none z-10"
   >
     &times;
   </button>
 
-  <h2 class="font-bebas text-4xl tracking-wide mb-4 mt-2 pr-10">{plato.title.rendered}</h2>
+  <h2 class="font-bebas text-4xl tracking-wide mb-4 mt-2 pr-10 text-gray-950">{plato.title.rendered}</h2>
 
   <div class="flex flex-col md:flex-row gap-6">
     {imagenUrl && (
@@ -86,22 +86,22 @@ for (let i = 1; i <= 4; i++) {
 
     <div class="flex-1 flex flex-col">
       <div class="mb-4">
-        {variaciones.length > 0 && <span class="font-bebas tracking-wider text-base text-gray-400 block mb-0.5 uppercase">desde</span>}
-        <p class="font-bebas text-3xl tracking-wider text-gray-300"> {acf.precio || '0'} €</p>
+        {variaciones.length > 0 && <span class="font-bebas tracking-wider text-base text-gray-600 block mb-0.5 uppercase">desde</span>}
+        <p class="font-bebas text-3xl tracking-wider text-gray-950">{acf.precio || '0'} €</p>
       </div>
       
-      <div class="font-inco text-base text-gray-400 mb-6 leading-relaxed" set:html={plato.content.rendered}></div>
+      <div class="font-inco text-base text-gray-700 mb-6 leading-relaxed" set:html={plato.content.rendered}></div>
 
       {plato.alergeno && plato.alergeno.length > 0 && (
         <div class="mb-6">
-          <p class="font-bebas tracking-wider text-xl text-gray-300 mb-3 uppercase">Alérgenos</p>
+          <p class="font-bebas tracking-wider text-xl text-gray-900 mb-3 uppercase">Alérgenos</p>
           <div class="flex gap-1">
             {plato.alergeno.map(id => {
               const alergeno = infoAlergenos[id];
               return alergeno?.url ? (
                 <div class="relative group flex justify-center focus:outline-none" tabindex="0">
                   <img src={alergeno.url} alt={alergeno.nombre} class="w-5 h-5 object-contain cursor-help" />
-                  <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-[#111111] font-inco text-white text-sm py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
+                  <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-gray-900 font-inco text-white text-sm py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
                     {alergeno.nombre}
                   </div>
                 </div>
@@ -114,17 +114,18 @@ for (let i = 1; i <= 4; i++) {
       {variaciones.length > 0 && (
         <details class="group mt-auto" open>
           <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <p class="font-bebas tracking-wider uppercase text-gray-200 text-xl">Elige el tamaño</p>            <div class="flex items-center gap-3">
-              <span class="bg-[#ff6900] font-bebas text-white text-sm px-2 py-0.5 rounded shadow-sm tracking-widest">Obligatorio</span>
-              <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
+            <p class="font-bebas tracking-wider uppercase text-gray-950 text-xl">Elige el tamaño</p>
+            <div class="flex items-center gap-3">
+              <span class="bg-[#ff6900] font-bebas text-white text-sm px-2 py-0.5 rounded shadow-sm tracking-widest font-sans">Obligatorio</span>
+              <svg class="w-4 h-4 text-gray-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
             </div>
           </summary>
           
-          <div class="font-inco flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
+          <div class="font-inco flex flex-col border border-[#e2ddd3] rounded-lg overflow-hidden mt-1 bg-[#f0ece5]">
             {variaciones.map((opcion) => (
-              <div class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-[#252528] transition-colors">
-                <span class="text-gray-200">{opcion.cantidad}</span>
-                <span class="text-gray-400"> {opcion.precio} €</span>
+              <div class="flex justify-between items-center p-4 border-b border-[#e2ddd3] last:border-0 hover:bg-[#e8e4dc] transition-colors text-gray-900">
+                <span>{opcion.cantidad}</span>
+                <span class="text-gray-700">{opcion.precio} €</span>
               </div>
             ))}
           </div>
@@ -134,16 +135,17 @@ for (let i = 1; i <= 4; i++) {
       {extras.length > 0 && (
         <details class="group mt-4" open>
           <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <p class="font-bebas tracking-wider uppercase text-gray-200 text-xl">Extras</p>            <div class="flex items-center gap-3">
-              <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
+            <p class="font-bebas tracking-wider uppercase text-gray-950 text-xl">Extras</p>
+            <div class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-gray-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
             </div>
           </summary>
           
-          <div class="font-inco flex flex-col border border-gray-700 rounded-lg overflow-hidden mt-1">
+          <div class="font-inco flex flex-col border border-[#e2ddd3] rounded-lg overflow-hidden mt-1 bg-[#f0ece5]">
             {extras.map((extra) => (
-              <div class="flex justify-between items-center p-4 border-b border-gray-700 last:border-0 hover:bg-[#252528] transition-colors">
-                <span class="text-gray-200">{extra.nombre}</span>
-                <span class="text-gray-400">+ {extra.precio} €</span>
+              <div class="flex justify-between items-center p-4 border-b border-[#e2ddd3] last:border-0 hover:bg-[#e8e4dc] transition-colors text-gray-900">
+                <span>{extra.nombre}</span>
+                <span class="text-gray-700">+ {extra.precio} €</span>
               </div>
             ))}
           </div>

@@ -1,0 +1,88 @@
+---
+import '../styles/global.css';
+import PlatoCard from '../components/PlatoCard.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const API_URL = import.meta.env.WP_API_URL;
+
+const resPlatos = await fetch(`${API_URL}/plato?_embed&per_page=100`);
+const platos = await resPlatos.json();
+
+const resCategorias = await fetch(`${API_URL}/categoria_plato?per_page=100&acf_format=standard`);
+let categorias = await resCategorias.json();
+
+categorias.sort((a, b) => {
+  const ordenA = a.acf?.orden ? parseInt(a.acf.orden) : 99;
+  const ordenB = b.acf?.orden ? parseInt(b.acf.orden) : 99;
+  return ordenA - ordenB;
+});
+
+const resAlergenos = await fetch(`${API_URL}/alergeno?acf_format=standard&per_page=100`);
+const alergenosData = await resAlergenos.json();
+
+const infoAlergenos = {};
+alergenosData.forEach(alergeno => {
+  infoAlergenos[alergeno.id] = {
+    url: alergeno.acf?.icono || null,
+    nombre: alergeno.name || "Alérgeno" 
+  }; 
+});
+---
+
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Nomads Garden</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inconsolata:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#f0ece5] text-gray-950 min-h-screen font-sans transition-colors duration-300">
+    
+    <Navbar categorias={categorias} />
+
+    <main class="p-8">
+      <div class="max-w-6xl mx-auto">
+        
+        {categorias.map(categoria => {
+          
+          const platosDeEstaCategoria = platos.filter(plato => 
+            plato.categoria_plato && plato.categoria_plato.includes(categoria.id)
+          );
+
+          if (platosDeEstaCategoria.length === 0) return null;
+
+          return (
+            <div class="mb-16 scroll-mt-28" id={`categoria-${categoria.id}`}>
+              
+              <h1 class="font-bebas text-5xl tracking-wide mb-2 text-gray-950">{categoria.name}</h1>
+              {categoria.description && (
+                <p class="font-bebas text-xl tracking-wide text-gray-700 mb-10 uppercase">{categoria.description}</p>
+              )}
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {platosDeEstaCategoria.map((plato) => {
+                  const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                  return (
+                    <PlatoCard 
+                      plato={plato} 
+                      imagenUrl={imagenUrl} 
+                      infoAlergenos={infoAlergenos} 
+                    />
+                  );
+                })}
+              </div>
+
+            </div>
+          );
+        })}
+
+      </div>
+    </main>
+
+  <Footer />
+  </body>
+</html>

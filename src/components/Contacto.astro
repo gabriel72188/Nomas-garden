@@ -1,73 +1,207 @@
 ---
 // src/components/Contacto.astro
+const { categorias = [] } = Astro.props;
 ---
 
-<section id="contacto" class="py-24 bg-gray-50 relative border-t border-gray-200">
-  <div class="max-w-6xl mx-auto px-6">
+<section id="contacto" class="py-24 bg-[#f8f5f0] text-[#2c1e16] relative z-10 border-t border-gray-200 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6">
     
-    <div class="text-center mb-16">
-      <h2 class="font-bebas text-5xl md:text-6xl text-gray-900 tracking-wider mb-4">¿DÓNDE ESTAMOS?</h2>
-      <p class="font-sans text-gray-600 text-lg max-w-2xl mx-auto">Ven a visitarnos y disfruta de la mejor gastronomía en un ambiente único.</p>
+    <div class="text-center mb-16 relative z-10">
+      <h2 class="font-bebas text-5xl md:text-6xl tracking-wider mb-2 text-[#e4a055]">VISÍTANOS</h2>
+      <p class="text-[#4a382a] font-sans text-lg max-w-2xl mx-auto">Ven a vivir la experiencia Nomads Garden. Te esperamos con los brazos abiertos y las cocinas encendidas.</p>
     </div>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-2xl p-6 md:p-10 border border-gray-100 shadow-xl">
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start relative z-10">
       
-      <div class="flex flex-col justify-center space-y-10">
+      <div class="lg:col-span-2 flex flex-col gap-10 py-2">
         
-        <div class="flex items-start gap-5">
-          <div class="bg-[#e4a055]/10 p-3.5 rounded-xl text-[#e4a055] shrink-0">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="p-2 bg-[#e4a055]/10 rounded-lg border border-[#e4a055]/20">
+              <svg class="w-6 h-6 text-[#e4a055]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </div>
+            <h3 class="font-bebas text-3xl text-[#2c1e16] tracking-wide m-0">UBICACIÓN</h3>
           </div>
-          <div>
-            <h3 class="font-bebas text-2xl tracking-wider text-gray-900 mb-1.5">UBICACIÓN</h3>
-            <p class="font-sans text-gray-600 leading-relaxed">
-              (Aquí pones tu dirección real)<br>
-              Ciudad, Código Postal
-            </p>
-          </div>
+          <p class="text-[#6b5646] font-sans ml-11 text-base leading-relaxed">Avenida Puerta Litoral Andaluz<br>Almería, Andalucía</p>
         </div>
 
-        <div class="flex items-start gap-5">
-          <div class="bg-[#e4a055]/10 p-3.5 rounded-xl text-[#e4a055] shrink-0">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+        <div class="relative">
+          <div class="flex items-center gap-3 mb-4">
+             <div class="p-2 bg-[#e4a055]/10 rounded-lg border border-[#e4a055]/20">
+              <svg class="w-6 h-6 text-[#e4a055]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+             </div>
+             <h3 class="font-bebas text-3xl text-[#2c1e16] tracking-wide m-0">HORARIO</h3>
           </div>
-          <div>
-            <h3 class="font-bebas text-2xl tracking-wider text-gray-900 mb-1.5">RESERVAS Y DUDAS</h3>
-            <p class="font-sans text-gray-600 leading-relaxed">
-              <a href="tel:640620913" class="hover:text-[#e4a055] transition-colors font-medium">+34 640 62 09 13</a><br>
-              <a href="mailto:nomadsgardenmarket@gmail.com" class="hover:text-[#e4a055] transition-colors text-sm">nomadsgardenmarket@gmail.com</a>
-            </p>
+          
+          <div id="horario-toggle" class="cursor-pointer ml-11 inline-flex items-center justify-between w-full max-w-[280px] bg-white border border-gray-200 hover:border-[#e4a055]/50 hover:bg-white p-3 rounded-lg transition-all shadow-sm">
+            <div class="flex items-center gap-2">
+              <span id="texto-horario-hoy" class="font-sans font-medium text-[#4a382a] text-sm">Cargando horario...</span>
+              <span id="badge-horario" class="hidden bg-red-100 text-red-600 font-bold text-xs px-2 py-0.5 rounded-full">Cerrado</span>
+            </div>
+            <svg id="horario-arrow" class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
           </div>
-        </div>
 
-        <div class="flex items-start gap-5">
-          <div class="bg-[#e4a055]/10 p-3.5 rounded-xl text-[#e4a055] shrink-0">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          </div>
-          <div>
-            <h3 class="font-bebas text-2xl tracking-wider text-gray-900 mb-1.5">HORARIO</h3>
-            <ul class="font-sans text-gray-600 space-y-1">
-              <li><span class="font-semibold text-gray-800">Jueves:</span> 19:00 a 23:30</li>
-              <li><span class="font-semibold text-gray-800">Vie y Sáb:</span> 12:00 a 16:00 y 19:00 a 00:00</li>
-              <li><span class="font-semibold text-gray-800">Domingo:</span> 12:00 a 17:00</li>
+          <div id="horario-menu" class="absolute top-[85px] left-11 w-full max-w-[280px] bg-white border border-gray-100 rounded-lg shadow-xl opacity-0 invisible transition-all duration-200 z-50">
+            <ul class="text-sm font-sans text-[#6b5646] p-2">
+              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Lunes</span> <span class="text-red-500 font-medium">Cerrado</span></li>
+              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Martes</span> <span class="text-red-500 font-medium">Cerrado</span></li>
+              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Miércoles</span> <span class="text-red-500 font-medium">Cerrado</span></li>
+              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Jueves</span> <span class="font-medium text-[#4a382a]">19:00 - 23:30</span></li>
+              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Viernes</span> <span class="font-medium text-[#4a382a] text-right">12:00 - 16:00<br>19:00 - 00:00</span></li>
+              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Sábado</span> <span class="font-medium text-[#4a382a] text-right">12:00 - 16:00<br>19:00 - 00:00</span></li>
+              <li class="flex justify-between py-2 px-3"><span>Domingo</span> <span class="font-medium text-[#4a382a]">12:00 - 17:00</span></li>
             </ul>
           </div>
         </div>
 
+        <hr class="border-[#2c1e16]/5 my-1 ml-11 max-w-[280px]">
+
+        <div>
+           <div class="flex items-center gap-3 mb-5">
+             <div class="p-2 bg-[#e4a055]/10 rounded-lg border border-[#e4a055]/20">
+               <svg class="w-6 h-6 text-[#e4a055]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+             </div>
+             <h3 class="font-bebas text-3xl text-[#2c1e16] tracking-wide m-0">CONTACTO</h3>
+           </div>
+           
+           <div class="flex flex-col gap-3 ml-11">
+              <a href="tel:640620913" class="group flex items-center gap-3 text-[#6b5646] hover:text-[#e4a055] transition-colors w-max">
+                <div class="bg-white group-hover:bg-[#e4a055]/10 p-2.5 rounded-full transition-colors border border-gray-100 shadow-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                </div>
+                <span class="font-sans font-medium">Llamar: 640 62 09 13</span>
+              </a>
+
+              <a href="https://wa.me/34640620913" target="_blank" class="group flex items-center gap-3 text-[#6b5646] hover:text-[#e4a055] transition-colors w-max">
+                <div class="bg-white group-hover:bg-[#e4a055]/10 p-2.5 rounded-full transition-colors border border-gray-100 shadow-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                </div>
+                <span class="font-sans font-medium">WhatsApp: +34 640 62 09 13</span>
+              </a>
+
+              <a href="mailto:nomadsgardenmarket@gmail.com" class="group flex items-center gap-3 text-[#6b5646] hover:text-[#e4a055] transition-colors w-max">
+                <div class="bg-white group-hover:bg-[#e4a055]/10 p-2.5 rounded-full transition-colors border border-gray-100 shadow-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <span class="font-sans font-medium text-sm">nomadsgardenmarket@gmail.com</span>
+              </a>
+           </div>
+        </div>
+
+
       </div>
 
-      <div class="h-[400px] lg:h-auto min-h-[400px] w-full rounded-xl overflow-hidden border border-gray-200 relative group">
-        
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.146524823439!2d-1.9546!3d36.8624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7a9f8162343d2f%3A0x6b77c35f29c42490!2sAlmer%C3%ADa%2C%20Spain!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
-          class="absolute inset-0 w-full h-full border-0 transition-all duration-500" 
-          allowfullscreen="" 
-          loading="lazy" 
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-
+      <div class="lg:col-span-3 h-full min-h-[500px]">
+        <div class="w-full h-full relative rounded-2xl overflow-hidden shadow-xl border border-gray-200">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.24712922412!2d-1.6625089234579946!3d37.360328972092745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd64cd6476ea57c7%3A0xe0314245bb8a0481!2sNomads%20Garden%20Market!5e0!3m2!1ses!2ses!4v1774273040719!5m2!1ses!2ses" 
+            class="absolute inset-0 w-full h-full border-0" 
+            title="Ubicación de Nomads Garden Market"
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
       </div>
 
     </div>
+
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // Lógica de los Horarios
+    const horariosSemanales = [
+      '12:00 a 17:00', // 0: Domingo
+      'Cerrado',       // 1: Lunes
+      'Cerrado',       // 2: Martes
+      'Cerrado',       // 3: Miércoles
+      '19:00 a 23:30', // 4: Jueves
+      '12:00 a 16:00 y 19:00 a 00:00', // 5: Viernes
+      '12:00 a 16:00 y 19:00 a 00:00'  // 6: Sábado
+    ];
+    
+    const diaHoy = new Date().getDay();
+    const horarioDeHoy = horariosSemanales[diaHoy];
+    const textoHoy = document.getElementById('texto-horario-hoy');
+    const badge = document.getElementById('badge-horario');
+
+    if (textoHoy) {
+      if (horarioDeHoy === 'Cerrado') {
+        textoHoy.innerText = 'Horarios Hoy';
+        if (badge) badge.classList.remove('hidden'); 
+      } else {
+        textoHoy.innerText = `Hoy ${horarioDeHoy}`;
+        if (badge) badge.classList.add('hidden');
+      }
+    }
+
+    // Lógica para el menú de horarios
+    const horarioToggle = document.getElementById('horario-toggle');
+    const horarioMenu = document.getElementById('horario-menu');
+    const horarioArrow = document.getElementById('horario-arrow');
+
+    if (horarioToggle && horarioMenu) {
+      horarioToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        horarioMenu.classList.toggle('opacity-0');
+        horarioMenu.classList.toggle('invisible');
+        horarioMenu.classList.toggle('opacity-100');
+        horarioMenu.classList.toggle('visible');
+        if (horarioArrow) horarioArrow.classList.toggle('rotate-180');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!horarioToggle.contains(e.target as Node)) {
+          horarioMenu.classList.add('opacity-0', 'invisible');
+          horarioMenu.classList.remove('opacity-100', 'visible');
+          if (horarioArrow) horarioArrow.classList.remove('rotate-180');
+        }
+      });
+    }
+
+    // Lógica del Doble Sticky y Scrollspy
+    const topBar = document.getElementById('scrolled-top-bar');
+    const catBar = document.getElementById('category-bar');
+    const catLinks = document.querySelectorAll('.cat-link'); 
+    
+    const updateActiveCategory = () => {
+      let currentSectionId = '';
+      const scrollPosition = window.scrollY + 180; 
+      
+      const sections = document.querySelectorAll('[id^="categoria-"]');
+      sections.forEach(section => {
+        if ((section as HTMLElement).offsetTop <= scrollPosition) {
+          currentSectionId = section.getAttribute('id') || '';
+        }
+      });
+
+      catLinks.forEach(link => {
+        if (link.getAttribute('href') === `#${currentSectionId}`) {
+          link.classList.add('text-white', 'border-[#3b82f6]');
+          link.classList.remove('text-gray-400', 'border-transparent', 'hover:border-gray-600');
+        } else {
+          link.classList.remove('text-white', 'border-[#3b82f6]');
+          link.classList.add('text-gray-400', 'border-transparent', 'hover:border-gray-600');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 150) {
+        if(topBar) topBar.classList.remove('opacity-0', 'pointer-events-none');
+        if(topBar) topBar.classList.add('opacity-100', 'pointer-events-auto');
+        if(catBar) catBar.style.top = '56px';
+      } else {
+        if(topBar) topBar.classList.add('opacity-0', 'pointer-events-none');
+        if(topBar) topBar.classList.remove('opacity-100', 'pointer-events-auto');
+        if(catBar) catBar.style.top = '0px';
+      }
+      updateActiveCategory();
+    });
+
+    setTimeout(updateActiveCategory, 100);
+  });
+</script>

@@ -9,13 +9,8 @@ import Footer from '../components/Footer.astro';
   <Navbar />
   
   <main class="bg-[#111]">
-<section class="relative z-10 w-full h-[95vh] md:h-screen bg-cover bg-center overflow-hidden" style="background-image: url('/headerimagen2.webp');">      <div class="absolute inset-0 bg-black/70 backdrop-blur"></div>
-      
-      <div class="hidden md:flex absolute right-4 lg:right-8 top-0 bottom-0 items-center justify-center z-20 pointer-events-none">
-        <span class="font-bebas text-6xl lg:text-8xl text-[#f6eedf]/50 tracking-widest uppercase" style="writing-mode: vertical-rl; transform: rotate(180deg);">
-          welcome
-        </span>
-      </div>
+    <section class="relative z-10 w-full h-[95vh] md:h-screen bg-cover bg-center overflow-hidden" style="background-image: url('/headerimagen2.webp');">      
+      <div class="absolute inset-0 bg-black/70 backdrop-blur"></div>
       
       <div class="relative z-30 flex flex-col items-center justify-center h-full px-6 text-center text-white pb-16">
         <img 
@@ -24,7 +19,7 @@ import Footer from '../components/Footer.astro';
           class="w-[360px] h-auto md:w-[640px] object-contain mb-8" 
         />
         
-        <a href="/carta" class="bg-[#1e468d] hover:bg-white text-white hover:text-[#1e468d] font-bebas text-xl px-10 py-3 rounded-full transition-colors duration-300 tracking-wider">
+        <a href="/carta" class="bg-[#1e468d] hover:bg-white text-[#f9ba5b] hover:text-[#1e468d] font-bebas text-xl px-10 py-3 rounded-full transition-colors duration-300 tracking-wider">
           VER LA CARTA
         </a>
       </div>
@@ -36,8 +31,8 @@ import Footer from '../components/Footer.astro';
       </div>
     </section>
 
-    <section id="nosotros" class="relative z-0 py-20 md:py-32 px-6 bg-[#f6eedf]">
-      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<section id="nosotros" class="relative z-0 pt-40 pb-60 px-6 bg-[#f6eedf]">   
+      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
         
         <div class="flex flex-col space-y-6">
           <p class="font-sans font-bold text-[#e4a055] uppercase tracking-widest text-sm">
@@ -52,23 +47,95 @@ import Footer from '../components/Footer.astro';
               Nacimos con un sueño claro: crear un espacio vibrante y único donde la gastronomía de autor se encuentre con el espíritu libre. Un lugar para compartir y volver a sentir.
             </p>
             <p>
-              Gastronomía, cultura y buena vibra. Aquí, cada plato y cada evento hace de este mercado el punto vital de la ciudad. Donde el alma y la tradición encuentran un nuevo lugar.
-            </p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a magna porta, tincidunt risus eu, fermentum dui. Praesent vulputate quam pulvinar magna pharetra, nec pellentesque nisl congue. Cras aliquet dictum nisi vel aliquet. Duis imperdiet massa et lacus eleifend imperdiet. Cras non purus in nibh bibendum volutpat. Nulla sed gravida nunc. Aenean in tempus nisl. Aliquam porta diam risus, vitae ornare massa sodales quis. Sed pretium neque nec congue sodales.            </p>
           </div>
         </div>
 
         <div class="relative h-[400px] md:h-[500px] w-full border-[12px] border-[#2c1e16] bg-[#2c1e16] transform rotate-2 hover:rotate-0 transition-transform duration-300">
           <img 
-            src="/headerimagen2.webp" 
+            src="/foto3.webp" 
             alt="Nuestra Historia" 
             class="absolute inset-0 w-full h-full object-cover" 
           />
         </div>
       </div>
+
+      <div class="absolute bottom-[-1px] left-0 w-full z-20 pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" class="w-full h-16 md:h-24 text-[#e4a055] fill-current">
+          <polygon points="100,0 100,100 0,100" />
+        </svg>
+      </div>
     </section>
 
-    <section id="galeria" class="py-20 text-center text-gray-400 bg-[#111]">
-      <h2 class="font-bebas text-4xl tracking-wider">GALERÍA DE FOTOS (Placeholder)</h2>
+<section id="galeria" class="relative w-full bg-[#e4a055] pb-16 md:pb-30">
+      
+      <div class="py-20 md:py-20 text-center">
+        <h2 class="font-bebas text-5xl md:text-6xl text-[#ffffff] tracking-widest uppercase">
+          VEN Y PRUEBA NUESTROS PLATILLOS
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full relative z-10">
+        
+        <div class="col-span-1 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-400 relative overflow-hidden group">
+           <img 
+             src="/imagen1.webp" 
+             alt="Imagen Pequeña 5" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+
+        <div class="col-span-1 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-600 relative overflow-hidden group">
+           <img 
+             src="/imagen8.webp" 
+             alt="Imagen Pequeña 8" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+
+        <div class="col-span-1 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-300 relative overflow-hidden group">
+           <img 
+             src="/imagen3.webp" 
+             alt="Imagen Pequeña 6" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+        
+        <div class="col-span-1 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-500 relative overflow-hidden group">
+           <img 
+             src="/imagen5.webp" 
+             alt="Imagen Pequeña 7" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+
+        <div class="col-span-1 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-600 relative overflow-hidden group">
+           <img 
+             src="/imagen6.webp" 
+             alt="Imagen Pequeña 8" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+
+        <div class="col-span-1 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-600 relative overflow-hidden group">
+           <img 
+             src="/imagen7.webp" 
+             alt="Imagen Pequeña 8" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+
+        <div class="col-span-1 md:col-span-2 lg:col-span-2 h-[350px] md:h-[400px] lg:h-[450px] bg-gray-200 relative overflow-hidden group">
+           <img 
+             src="/imagen2.webp" 
+             alt="Imagen Grande 1" 
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+           />
+        </div>
+
+
+      </div>
+
     </section>
 
     <Contacto />

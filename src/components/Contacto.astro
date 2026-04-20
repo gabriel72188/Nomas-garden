@@ -1,6 +1,45 @@
 ---
 // src/components/Contacto.astro
 const { categorias = [] } = Astro.props;
+
+// 1. OBTENER LOS DATOS DE WORDPRESS
+const API_URL = import.meta.env.WP_API_URL;
+const resHorario = await fetch(`${API_URL}/horario?per_page=1`);
+const horariosData = await resHorario.json();
+
+// Extraemos el grupo de campos ACF
+const horarioSemanal = horariosData[0]?.acf?.horario || null;
+
+// 2. PREPARAR DATOS PARA EL MENÚ DESPLEGABLE (HTML)
+const diasSemanaList = [
+  { nombre: 'Lunes', cerrado: horarioSemanal?.cerrado_lunes, tramo1: horarioSemanal?.tramo_1_lunes, tramo2: horarioSemanal?.tramo_2_lunes },
+  { nombre: 'Martes', cerrado: horarioSemanal?.cerrado_martes, tramo1: horarioSemanal?.tramo_1_martes, tramo2: horarioSemanal?.tramo_2_martes },
+  { nombre: 'Miércoles', cerrado: horarioSemanal?.cerrado_miercoles, tramo1: horarioSemanal?.tramo_1_miercoles, tramo2: horarioSemanal?.tramo_2_miercoles },
+  { nombre: 'Jueves', cerrado: horarioSemanal?.cerrado_jueves, tramo1: horarioSemanal?.tramo_1_jueves, tramo2: horarioSemanal?.tramo_2_jueves },
+  { nombre: 'Viernes', cerrado: horarioSemanal?.cerrado_viernes, tramo1: horarioSemanal?.tramo_1_viernes, tramo2: horarioSemanal?.tramo_2_viernes },
+  { nombre: 'Sábado', cerrado: horarioSemanal?.cerrado_sabado, tramo1: horarioSemanal?.tramo_1_sabado, tramo2: horarioSemanal?.tramo_2_sabado },
+  { nombre: 'Domingo', cerrado: horarioSemanal?.cerrado_domingo, tramo1: horarioSemanal?.tramo_1_domingo, tramo2: horarioSemanal?.tramo_2_domingo },
+];
+
+// 3. PREPARAR DATOS PARA EL JAVASCRIPT (Saber qué día es "Hoy")
+// Función a prueba de balas: ignora los tramos que estén vacíos o sean solo espacios
+const formatDayJs = (cerrado, tramo1, tramo2) => {
+  if (cerrado) return 'Cerrado';
+  let res = [];
+  if (tramo1 && tramo1.trim() !== '') res.push(tramo1);
+  if (tramo2 && tramo2.trim() !== '') res.push(tramo2);
+  return res.length > 0 ? res.join(' y ') : 'Abierto';
+};
+
+const arrayHorariosJs = [
+  formatDayJs(horarioSemanal?.cerrado_domingo, horarioSemanal?.tramo_1_domingo, horarioSemanal?.tramo_2_domingo),
+  formatDayJs(horarioSemanal?.cerrado_lunes, horarioSemanal?.tramo_1_lunes, horarioSemanal?.tramo_2_lunes),
+  formatDayJs(horarioSemanal?.cerrado_martes, horarioSemanal?.tramo_1_martes, horarioSemanal?.tramo_2_martes),
+  formatDayJs(horarioSemanal?.cerrado_miercoles, horarioSemanal?.tramo_1_miercoles, horarioSemanal?.tramo_2_miercoles),
+  formatDayJs(horarioSemanal?.cerrado_jueves, horarioSemanal?.tramo_1_jueves, horarioSemanal?.tramo_2_jueves),
+  formatDayJs(horarioSemanal?.cerrado_viernes, horarioSemanal?.tramo_1_viernes, horarioSemanal?.tramo_2_viernes),
+  formatDayJs(horarioSemanal?.cerrado_sabado, horarioSemanal?.tramo_1_sabado, horarioSemanal?.tramo_2_sabado)
+];
 ---
 
 <section id="contacto" class="py-24 bg-[#f8f5f0] text-[#2c1e16] relative z-10 border-t border-gray-200 overflow-hidden">
@@ -22,7 +61,7 @@ const { categorias = [] } = Astro.props;
             </div>
             <h3 class="font-bebas text-3xl text-[#2c1e16] tracking-wide m-0">UBICACIÓN</h3>
           </div>
-          <p class="text-[#6b5646] font-sans ml-11 text-base leading-relaxed">Avenida Puerta Litoral Andaluz<br>Almería, Andalucía</p>
+          <p class="text-[#6b5646] font-sans ml-11 text-base leading-relaxed">Avda. Puerta Litoral Andaluz 13,<br> San Juan de los Terreros<br>Almería, Andalucía</p>
         </div>
 
         <div class="relative">
@@ -43,13 +82,19 @@ const { categorias = [] } = Astro.props;
 
           <div id="horario-menu" class="absolute top-[85px] left-11 w-full max-w-[280px] bg-white border border-gray-100 rounded-lg shadow-xl opacity-0 invisible transition-all duration-200 z-50">
             <ul class="text-sm font-sans text-[#6b5646] p-2">
-              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Lunes</span> <span class="text-red-500 font-medium">Cerrado</span></li>
-              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Martes</span> <span class="text-red-500 font-medium">Cerrado</span></li>
-              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Miércoles</span> <span class="text-red-500 font-medium">Cerrado</span></li>
-              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Jueves</span> <span class="font-medium text-[#4a382a]">19:00 - 23:30</span></li>
-              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Viernes</span> <span class="font-medium text-[#4a382a] text-right">12:00 - 16:00<br>19:00 - 00:00</span></li>
-              <li class="flex justify-between py-2 px-3 border-b border-gray-50"><span>Sábado</span> <span class="font-medium text-[#4a382a] text-right">12:00 - 16:00<br>19:00 - 00:00</span></li>
-              <li class="flex justify-between py-2 px-3"><span>Domingo</span> <span class="font-medium text-[#4a382a]">12:00 - 17:00</span></li>
+              {diasSemanaList.map((dia) => (
+                <li class="flex justify-between py-2 px-3 border-b border-gray-50 last:border-0">
+                  <span>{dia.nombre}</span>
+                  {dia.cerrado ? (
+                    <span class="text-red-500 font-medium">Cerrado</span>
+                  ) : (
+                    <span 
+                      class="font-medium text-[#4a382a] text-right" 
+                      set:html={[dia.tramo1, dia.tramo2].filter(t => t && t.trim() !== '').join('<br/>')} 
+                    />
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -65,13 +110,6 @@ const { categorias = [] } = Astro.props;
            </div>
            
            <div class="flex flex-col gap-3 ml-11">
-              <a href="tel:640620913" class="group flex items-center gap-3 text-[#6b5646] hover:text-[#e4a055] transition-colors w-max">
-                <div class="bg-white group-hover:bg-[#e4a055]/10 p-2.5 rounded-full transition-colors border border-gray-100 shadow-sm">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                </div>
-                <span class="font-sans font-medium">Llamar: 640 62 09 13</span>
-              </a>
-
               <a href="https://wa.me/34640620913" target="_blank" class="group flex items-center gap-3 text-[#6b5646] hover:text-[#e4a055] transition-colors w-max">
                 <div class="bg-white group-hover:bg-[#e4a055]/10 p-2.5 rounded-full transition-colors border border-gray-100 shadow-sm">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -87,7 +125,6 @@ const { categorias = [] } = Astro.props;
               </a>
            </div>
         </div>
-
 
       </div>
 
@@ -109,22 +146,11 @@ const { categorias = [] } = Astro.props;
   </div>
 </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    
+<script define:vars={{ horariosSemanales: arrayHorariosJs }}>
+  const iniciarHorarios = () => {
     // Lógica de los Horarios
-    const horariosSemanales = [
-      '12:00 a 17:00', // 0: Domingo
-      'Cerrado',       // 1: Lunes
-      'Cerrado',       // 2: Martes
-      'Cerrado',       // 3: Miércoles
-      '19:00 a 23:30', // 4: Jueves
-      '12:00 a 16:00 y 19:00 a 00:00', // 5: Viernes
-      '12:00 a 16:00 y 19:00 a 00:00'  // 6: Sábado
-    ];
-    
     const diaHoy = new Date().getDay();
-    const horarioDeHoy = horariosSemanales[diaHoy];
+    const horarioDeHoy = horariosSemanales[diaHoy] || 'Cerrado';
     const textoHoy = document.getElementById('texto-horario-hoy');
     const badge = document.getElementById('badge-horario');
 
@@ -154,7 +180,7 @@ const { categorias = [] } = Astro.props;
       });
 
       document.addEventListener('click', (e) => {
-        if (!horarioToggle.contains(e.target as Node)) {
+        if (!horarioToggle.contains(e.target)) {
           horarioMenu.classList.add('opacity-0', 'invisible');
           horarioMenu.classList.remove('opacity-100', 'visible');
           if (horarioArrow) horarioArrow.classList.remove('rotate-180');
@@ -173,7 +199,7 @@ const { categorias = [] } = Astro.props;
       
       const sections = document.querySelectorAll('[id^="categoria-"]');
       sections.forEach(section => {
-        if ((section as HTMLElement).offsetTop <= scrollPosition) {
+        if (section.offsetTop <= scrollPosition) {
           currentSectionId = section.getAttribute('id') || '';
         }
       });
@@ -203,5 +229,12 @@ const { categorias = [] } = Astro.props;
     });
 
     setTimeout(updateActiveCategory, 100);
-  });
+  };
+
+  // Ejecución segura
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciarHorarios);
+  } else {
+    iniciarHorarios();
+  }
 </script>

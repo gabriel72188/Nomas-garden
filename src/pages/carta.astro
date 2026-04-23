@@ -6,18 +6,26 @@ import Footer from '../components/Footer.astro';
 
 const API_URL = import.meta.env.WP_API_URL;
 
+// 1. Obtener Platos
 const resPlatos = await fetch(`${API_URL}/plato?_embed&per_page=100`);
 const platos = await resPlatos.json();
 
+// 2. Obtener TODAS las categorías (Padres e Hijos)
 const resCategorias = await fetch(`${API_URL}/categoria_plato?per_page=100&acf_format=standard`);
 let categorias = await resCategorias.json();
 
+// Ordenarlas por el campo ACF "orden"
 categorias.sort((a, b) => {
   const ordenA = a.acf?.orden ? parseInt(a.acf.orden) : 99;
   const ordenB = b.acf?.orden ? parseInt(b.acf.orden) : 99;
   return ordenA - ordenB;
 });
 
+// 3. Separar Padres (Puestos) de Hijos (Subcategorías)
+const categoriasPrincipales = categorias.filter(cat => cat.parent === 0);
+const subCategorias = categorias.filter(cat => cat.parent !== 0);
+
+// 4. Obtener Alérgenos
 const resAlergenos = await fetch(`${API_URL}/alergeno?acf_format=standard&per_page=100`);
 const alergenosData = await resAlergenos.json();
 
@@ -45,39 +53,76 @@ alergenosData.forEach(alergeno => {
   </head>
   <body class="bg-[#f0ece5] text-gray-950 min-h-screen font-sans transition-colors duration-300">
     
-    <Navbar categorias={categorias} />
+    <Navbar categorias={categoriasPrincipales} />
 
     <main class="p-8">
       <div class="max-w-6xl mx-auto">
         
-        {categorias.map(categoria => {
+        {categoriasPrincipales.map(puesto => {
           
-          const platosDeEstaCategoria = platos.filter(plato => 
-            plato.categoria_plato && plato.categoria_plato.includes(categoria.id)
+          // Buscar las subcategorías que pertenecen a este puesto
+          const subcatsDelPuesto = subCategorias.filter(sub => sub.parent === puesto.id);
+
+          // Buscar platos que están marcados en el Puesto pero NO en ninguna subcategoría (Platos "sueltos")
+          const platosDirectos = platos.filter(plato => 
+            plato.categoria_plato && 
+            plato.categoria_plato.includes(puesto.id) &&
+            !subcatsDelPuesto.some(sub => plato.categoria_plato.includes(sub.id))
           );
 
-          if (platosDeEstaCategoria.length === 0) return null;
+          // Comprobar si este puesto tiene algo que mostrar (platos directos o subcategorías con platos)
+          const tienePlatosDirectos = platosDirectos.length > 0;
+          const tieneSubcategoriasConPlatos = subcatsDelPuesto.some(sub => 
+            platos.some(plato => plato.categoria_plato && plato.categoria_plato.includes(sub.id))
+          );
+
+          if (!tienePlatosDirectos && !tieneSubcategoriasConPlatos) return null;
 
           return (
-            <div class="mb-16 scroll-mt-28" id={`categoria-${categoria.id}`}>
+            <div class="mb-20 scroll-mt-28" id={`categoria-${puesto.id}`}>
               
-              <h1 class="font-bebas text-5xl tracking-wide mb-2 text-gray-950">{categoria.name}</h1>
-              {categoria.description && (
-                <p class="font-bebas text-xl tracking-wide text-gray-700 mb-10 uppercase">{categoria.description}</p>
+              {/* TÍTULO DEL PUESTO */}
+              <div class="border-b-2 border-[#e4a055] pb-2 mb-8">
+                <h1 class="font-bebas text-6xl tracking-wide text-gray-950">{puesto.name}</h1>
+                {puesto.description && (
+                  <p class="font-bebas text-xl tracking-wide text-gray-500 uppercase mt-2">{puesto.description}</p>
+                )}
+              </div>
+
+              {/* PLATOS DIRECTOS DEL PUESTO (Sin subcategoría) */}
+              {tienePlatosDirectos && (
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                  {platosDirectos.map((plato) => {
+                    const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                    return <PlatoCard plato={plato} imagenUrl={imagenUrl} infoAlergenos={infoAlergenos} />;
+                  })}
+                </div>
               )}
 
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {platosDeEstaCategoria.map((plato) => {
-                  const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-                  return (
-                    <PlatoCard 
-                      plato={plato} 
-                      imagenUrl={imagenUrl} 
-                      infoAlergenos={infoAlergenos} 
-                    />
-                  );
-                })}
-              </div>
+              {/* SUBCATEGORÍAS*/}
+              {subcatsDelPuesto.map(subcat => {
+                const platosDeSubcat = platos.filter(plato => 
+                  plato.categoria_plato && plato.categoria_plato.includes(subcat.id)
+                );
+
+                if (platosDeSubcat.length === 0) return null;
+
+                return (
+                  <div class="mb-12">
+                    <h2 class="font-bebas text-4xl text-[#e4a055] tracking-wide mb-6 flex items-center gap-4">
+                      {subcat.name}
+                      <span class="h-px bg-[#e4a055]/30 flex-1"></span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {platosDeSubcat.map((plato) => {
+                        const imagenUrl = plato._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                        return <PlatoCard plato={plato} imagenUrl={imagenUrl} infoAlergenos={infoAlergenos} />;
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
 
             </div>
           );

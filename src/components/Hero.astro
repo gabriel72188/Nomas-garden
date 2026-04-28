@@ -1,5 +1,8 @@
 ---
-// src/components/Hero.astro
+import { useTranslations } from '../i18n/ui.js';
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
 ---
 <section class="relative z-10 w-full h-[95vh] md:h-screen bg-cover bg-center overflow-hidden" style="background-image: url('/headerimagen2.webp');">      
   <div class="absolute inset-0 bg-black/70 backdrop-blur"></div>
@@ -11,8 +14,8 @@
       class="w-[90%] max-w-[360px] md:max-w-[500px] lg:max-w-[640px] h-auto max-h-[50vh] object-contain mb-8" 
     />
     
-    <a href="/carta" class="bg-[#1e468d] hover:bg-white text-[#f9ba5b] hover:text-[#1e468d] font-bebas text-xl px-10 py-3 rounded-full transition-colors duration-300 tracking-wider">
-      VER LA CARTA
+    <a href={`/${lang === 'es' ? '' : lang + '/'}carta`} class="bg-[#1e468d] hover:bg-white text-[#f9ba5b] hover:text-[#1e468d] font-bebas text-xl px-10 py-3 rounded-full transition-colors duration-300 tracking-wider">
+      {t('hero.btn')}
     </a>
   </div>
 

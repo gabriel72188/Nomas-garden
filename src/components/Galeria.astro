@@ -1,11 +1,14 @@
 ---
-// src/components/Galeria.astro
+import { useTranslations } from '../i18n/ui.js';
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
 ---
 <section id="galeria" class="relative w-full bg-[#e4a055] pb-16 md:pb-30">
   
   <div class="py-20 md:py-20 text-center">
     <h2 class="font-bebas text-5xl md:text-6xl text-[#ffffff] tracking-widest uppercase">
-      TU SITIO ESTE VERANO
+      {t('galeria.title')}
     </h2>
   </div>
 

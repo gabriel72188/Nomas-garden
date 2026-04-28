@@ -1,4 +1,8 @@
 ---
+import { useTranslations } from '../i18n/ui.js';
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <footer class="w-full bg-[#1e1e1e] text-gray-300 font-sans pt-12 mt-10 border-t border-[#333]">
@@ -17,8 +21,8 @@
 
       <div class="flex flex-col items-center text-center px-4">
         <svg class="w-6 h-6 text-gray-300 mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
-        <h3 class="text-lg font-bold text-white mb-2">Ubicación</h3>
-        <p class="text-sm text-gray-400 mb-1">Principal</p>
+        <h3 class="text-lg font-bold text-white mb-2">{t('footer.ubicacion')}</h3>
+        <p class="text-sm text-gray-400 mb-1">{t('footer.principal')}</p>
         <p class="text-[13px] text-gray-400 flex items-center justify-center gap-1.5">
           <svg class="w-3.5 h-3.5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           Avda. Puerta Litoral Andaluz 13, San Juan de los Terreros, Almería
@@ -27,7 +31,7 @@
 
       <div class="flex flex-col items-center text-center px-4">
         <svg class="w-6 h-6 text-gray-300 mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.12.45 2.33.69 3.58.69a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.24 2.46.69 3.57a1 1 0 01-.27 1.11l-2.3 2.31z"/></svg>
-        <h3 class="text-lg font-bold text-white mb-2">Contacto</h3>
+        <h3 class="text-lg font-bold text-white mb-2">{t('footer.contacto')}</h3>
         <div class="flex flex-col gap-1.5 text-[13px] text-gray-400">
         <p class="flex items-center justify-center gap-2">
             <svg class="w-3.5 h-3.5 text-gray-500" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.12.45 2.33.69 3.58.69a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.24 2.46.69 3.57a1 1 0 01-.27 1.11l-2.3 2.31z"/></svg>

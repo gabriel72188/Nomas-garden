@@ -1,29 +1,30 @@
 ---
-// src/components/Nosotros.astro
+import { useTranslations } from '../i18n/ui.js';
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
 ---
 <section id="nosotros" class="relative z-0 pt-24 pb-24 px-6 bg-[#f6eedf]">   
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
     
     <div class="flex flex-col space-y-6">
       <p class="font-sans font-bold text-[#e4a055] uppercase tracking-widest text-sm">
-        Bienvenidos a Nomads Garden
+        {t('nosotros.subtitle')}
       </p>
-      <h2 class="font-bebas text-6xl md:text-8xl text-[#2c1e16] tracking-wider leading-[0.9] uppercase">
-        FOOD<br>MARKET
-      </h2>
+      <h2 class="font-bebas text-6xl md:text-8xl text-[#2c1e16] tracking-wider leading-[0.9] uppercase" set:html={t('nosotros.title')}></h2>
       
       <div class="space-y-4 font-sans text-[#4a382a] text-lg leading-relaxed font-medium">
         <p>
-          Somos un mercado gastronómico al aire libre donde la comida, la música y la gente se mezclan sin filtros. Un espacio para venir con amigos, en familia o acabar conociendo a alguien nuevo entre mesa y mesa.
+          {t('nosotros.p1')}
         </p>
         <p>
-          Aquí cada puesto tiene su historia: sushi, burgers, mexicano, argentino… todo hecho con cariño, sin prisas y cuidando cada detalle. Nada de comida sin alma.
+          {t('nosotros.p2')}
         </p>
         <p>
-          Aquí cada puesto tiene su historia: sushi, burgers, mexicano, argentino… todo hecho con cariño, sin prisas y cuidando cada detalle. Nada de comida sin alma.
+          {t('nosotros.p3')}
         </p>
         <p>
-          Nomads es verano. Es buen rollo. Es quedarte un rato más.
+          {t('nosotros.p4')}
         </p>
       </div>
     </div>

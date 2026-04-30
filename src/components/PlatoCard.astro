@@ -1,7 +1,7 @@
 ---
-import { useTranslations } from '../i18n/ui.js';
+import { useTranslations } from "../i18n/ui.js";
 
-const { lang = 'es', plato, imagenUrl, infoAlergenos } = Astro.props;
+const { lang = "es", plato, imagenUrl, infoAlergenos } = Astro.props;
 const t = useTranslations(lang);
 
 // 1. ID único para el modal
@@ -10,10 +10,18 @@ const modalId = `modal-${plato.id}`;
 // 2. Extraemos los datos de ACF y preparamos las variaciones
 const acf = plato.acf || {};
 
+// LÓGICA DE TRADUCCIÓN: Descripción
 let descripcion = plato.content.rendered;
-if (lang === 'en') descripcion = acf.descripcion_en || descripcion;
-if (lang === 'fr') descripcion = acf.descripcion_fr || descripcion;
-if (lang === 'de') descripcion = acf.descripcion_de || descripcion;
+if (lang === "en") descripcion = acf.descripcion_en || descripcion;
+if (lang === "fr") descripcion = acf.descripcion_fr || descripcion;
+if (lang === "de") descripcion = acf.descripcion_de || descripcion;
+
+// LÓGICA DE TRADUCCIÓN: Título (Híbrido)
+let titulo = plato.title.rendered;
+if (lang === "en") titulo = acf.titulo_en || titulo;
+if (lang === "fr") titulo = acf.titulo_fr || titulo;
+if (lang === "de") titulo = acf.titulo_de || titulo;
+
 let variaciones = [];
 
 for (let i = 1; i <= 4; i++) {
@@ -30,169 +38,263 @@ for (let i = 1; i <= 4; i++) {
   if (objExtra && objExtra.extra && objExtra.precio) {
     extras.push({
       nombre: objExtra.extra,
-      precio: objExtra.precio
+      precio: objExtra.precio,
     });
   }
 }
 ---
 
-<div 
+<div
   class="bg-[#f0ece5] rounded-xl p-4 flex gap-4 hover:bg-[#e8e4dc] transition-colors cursor-pointer border border-[#e2ddd3] shadow-sm h-full relative"
   data-modal-target={modalId}
 >
-  {imagenUrl && (
-    <img src={imagenUrl} alt={plato.title.rendered} class="w-24 h-24 object-cover rounded-lg flex-shrink-0" />
-  )}
+  {
+    imagenUrl && (
+      <img
+        src={imagenUrl}
+        alt={titulo}
+        class="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+      />
+    )
+  }
 
   <div class="flex-1 flex flex-col">
-    <h2 class="font-bebas text-2xl tracking-wide leading-tight mb-1 text-gray-950">{plato.title.rendered}</h2>
-    
-    <div class="font-inco text-sm text-gray-700 line-clamp-2 leading-relaxed" set:html={descripcion}></div>
-    
-    {plato.alergeno && plato.alergeno.length > 0 && (
-      <div class="flex gap-1 mt-2 mb-2">
-        {plato.alergeno.map(id => {
-          const alergeno = infoAlergenos[id];
-          return alergeno?.url ? (
-            <div class="relative group flex justify-center focus:outline-none" tabindex="0">
-              <img src={alergeno.url} alt={alergeno.nombre} class="w-4 h-4 object-contain cursor-help" />
-              <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-gray-900 font-inco text-white text-xs py-1 px-2 rounded-md border border-gray-600 whitespace-nowrap z-20 shadow-lg">
-                {alergeno.nombre}
+    {/* AQUÍ IMPRIMIMOS EL TÍTULO TRADUCIDO */}
+    <h2
+      class="font-bebas text-2xl tracking-wide leading-tight mb-1 text-gray-950"
+      set:html={titulo}
+    />
+
+    <div
+      class="font-inco text-sm text-gray-700 line-clamp-2 leading-relaxed"
+      set:html={descripcion}
+    />
+
+    {
+      plato.alergeno && plato.alergeno.length > 0 && (
+        <div class="flex gap-1 mt-2 mb-2">
+          {plato.alergeno.map((id) => {
+            const alergeno = infoAlergenos[id];
+            return alergeno?.url ? (
+              <div
+                class="relative group flex justify-center focus:outline-none"
+                tabindex="0"
+              >
+                <img
+                  src={alergeno.url}
+                  alt={alergeno.nombre}
+                  class="w-4 h-4 object-contain cursor-help"
+                />
+                <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-gray-900 font-inco text-white text-xs py-1 px-2 rounded-md border border-gray-600 whitespace-nowrap z-20 shadow-lg">
+                  {alergeno.nombre}
+                </div>
               </div>
-            </div>
-          ) : null;
-        })}
-      </div>
-    )}
+            ) : null;
+          })}
+        </div>
+      )
+    }
 
     <div class="mt-auto">
-      {variaciones.length > 0 && <span class="font-bebas tracking-wider text-sm text-gray-600 block mb-0.5 uppercase">{t('plato.desde')}</span>}
-      <p class="font-bebas text-xl tracking-wider text-gray-950">{acf.precio || '0'} €</p>
+      {
+        variaciones.length > 0 && (
+          <span class="font-bebas tracking-wider text-sm text-gray-600 block mb-0.5 uppercase">
+            {t("plato.desde")}
+          </span>
+        )
+      }
+      <p class="font-bebas text-xl tracking-wider text-gray-950">
+        {acf.precio || "0"} €
+      </p>
     </div>
   </div>
 </div>
 
-<dialog 
-  id={modalId} 
+<dialog
+  id={modalId}
   class="bg-[#f0ece5] text-gray-950 p-6 rounded-2xl w-[90%] max-w-5xl backdrop:bg-black/60 backdrop:backdrop-blur-sm m-auto shadow-2xl"
 >
-  <button 
-    data-modal-close={modalId} 
+  <button
+    data-modal-close={modalId}
     class="absolute top-4 right-4 text-gray-500 hover:text-black text-3xl leading-none cursor-pointer bg-transparent border-none outline-none z-10"
   >
     &times;
   </button>
 
-  <h2 class="font-bebas text-4xl tracking-wide mb-4 mt-2 pr-10 text-gray-950">{plato.title.rendered}</h2>
+  {/* AQUÍ IMPRIMIMOS EL TÍTULO TRADUCIDO EN EL MODAL */}
+  <h2
+    class="font-bebas text-4xl tracking-wide mb-4 mt-2 pr-10 text-gray-950"
+    set:html={titulo}
+  />
 
   <div class="flex flex-col md:flex-row gap-6">
-    {imagenUrl && (
-      <div class="w-full md:w-1/2 md:self-start flex-shrink-0">
-        <img src={imagenUrl} alt={plato.title.rendered} class="w-full h-64 md:h-auto md:aspect-square object-cover rounded-xl" />
-      </div>
-    )}
+    {
+      imagenUrl && (
+        <div class="w-full md:w-1/2 md:self-start flex-shrink-0">
+          <img
+            src={imagenUrl}
+            alt={titulo}
+            class="w-full h-64 md:h-auto md:aspect-square object-cover rounded-xl"
+          />
+        </div>
+      )
+    }
 
     <div class="flex-1 flex flex-col">
       <div class="mb-4">
-        {variaciones.length > 0 && <span class="font-bebas tracking-wider text-base text-gray-600 block mb-0.5 uppercase">{t('plato.desde')}</span>}
-        <p class="font-bebas text-3xl tracking-wider text-gray-950">{acf.precio || '0'} €</p>
+        {
+          variaciones.length > 0 && (
+            <span class="font-bebas tracking-wider text-base text-gray-600 block mb-0.5 uppercase">
+              {t("plato.desde")}
+            </span>
+          )
+        }
+        <p class="font-bebas text-3xl tracking-wider text-gray-950">
+          {acf.precio || "0"} €
+        </p>
       </div>
-      
-      <div class="font-inco text-base text-gray-700 mb-6 leading-relaxed" set:html={descripcion}></div>
 
-      {plato.alergeno && plato.alergeno.length > 0 && (
-        <div class="mb-6">
-          <p class="font-bebas tracking-wider text-xl text-gray-900 mb-3 uppercase">{t('plato.alergenos')}</p>
-          <div class="flex gap-1">
-            {plato.alergeno.map(id => {
-              const alergeno = infoAlergenos[id];
-              return alergeno?.url ? (
-                <div class="relative group flex justify-center focus:outline-none" tabindex="0">
-                  <img src={alergeno.url} alt={alergeno.nombre} class="w-5 h-5 object-contain cursor-help" />
-                  <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-gray-900 font-inco text-white text-sm py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
-                    {alergeno.nombre}
+      <div
+        class="font-inco text-base text-gray-700 mb-6 leading-relaxed"
+        set:html={descripcion}
+      />
+
+      {
+        plato.alergeno && plato.alergeno.length > 0 && (
+          <div class="mb-6">
+            <p class="font-bebas tracking-wider text-xl text-gray-900 mb-3 uppercase">
+              {t("plato.alergenos")}
+            </p>
+            <div class="flex gap-1">
+              {plato.alergeno.map((id) => {
+                const alergeno = infoAlergenos[id];
+                return alergeno?.url ? (
+                  <div
+                    class="relative group flex justify-center focus:outline-none"
+                    tabindex="0"
+                  >
+                    <img
+                      src={alergeno.url}
+                      alt={alergeno.nombre}
+                      class="w-5 h-5 object-contain cursor-help"
+                    />
+                    <div class="absolute bottom-full mb-2 hidden group-hover:block group-focus:block bg-gray-900 font-inco text-white text-sm py-1.5 px-3 rounded-md border border-gray-700 whitespace-nowrap z-50 shadow-lg">
+                      {alergeno.nombre}
+                    </div>
                   </div>
+                ) : null;
+              })}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variaciones.length > 0 && (
+          <details class="group mt-auto" open>
+            <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <p class="font-bebas tracking-wider uppercase text-gray-950 text-xl">
+                {t("plato.eligeTamano")}
+              </p>
+              <div class="flex items-center gap-3">
+                <span class="bg-[#ff6900] font-bebas text-white text-sm px-2 py-0.5 rounded shadow-sm tracking-widest font-sans">
+                  {t("plato.obligatorio")}
+                </span>
+                <svg
+                  class="w-4 h-4 text-gray-500 transition-transform duration-300 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 9l7 7 7-7"
+                  />
+                </svg>
+              </div>
+            </summary>
+
+            <div class="font-inco flex flex-col border border-[#e2ddd3] rounded-lg overflow-hidden mt-1 bg-[#f0ece5]">
+              {variaciones.map((opcion) => (
+                <div class="flex justify-between items-center p-4 border-b border-[#e2ddd3] last:border-0 hover:bg-[#e8e4dc] transition-colors text-gray-900">
+                  <span>{opcion.cantidad}</span>
+                  <span class="text-gray-700">{opcion.precio} €</span>
                 </div>
-              ) : null;
-            })}
-          </div>
-        </div>
-      )}
-
-      {variaciones.length > 0 && (
-        <details class="group mt-auto" open>
-          <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <p class="font-bebas tracking-wider uppercase text-gray-950 text-xl">{t('plato.eligeTamano')}</p>
-            <div class="flex items-center gap-3">
-              <span class="bg-[#ff6900] font-bebas text-white text-sm px-2 py-0.5 rounded shadow-sm tracking-widest font-sans">{t('plato.obligatorio')}</span>
-              <svg class="w-4 h-4 text-gray-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
+              ))}
             </div>
-          </summary>
-          
-          <div class="font-inco flex flex-col border border-[#e2ddd3] rounded-lg overflow-hidden mt-1 bg-[#f0ece5]">
-            {variaciones.map((opcion) => (
-              <div class="flex justify-between items-center p-4 border-b border-[#e2ddd3] last:border-0 hover:bg-[#e8e4dc] transition-colors text-gray-900">
-                <span>{opcion.cantidad}</span>
-                <span class="text-gray-700">{opcion.precio} €</span>
-              </div>
-            ))}
-          </div>
-        </details>
-      )}
+          </details>
+        )
+      }
 
-      {extras.length > 0 && (
-        <details class="group mt-4" open>
-          <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <p class="font-bebas tracking-wider uppercase text-gray-950 text-xl">{t('plato.extras')}</p>
-            <div class="flex items-center gap-3">
-              <svg class="w-4 h-4 text-gray-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9l7 7 7-7"></path></svg>
-            </div>
-          </summary>
-          
-          <div class="font-inco flex flex-col border border-[#e2ddd3] rounded-lg overflow-hidden mt-1 bg-[#f0ece5]">
-            {extras.map((extra) => (
-              <div class="flex justify-between items-center p-4 border-b border-[#e2ddd3] last:border-0 hover:bg-[#e8e4dc] transition-colors text-gray-900">
-                <span>{extra.nombre}</span>
-                <span class="text-gray-700">+ {extra.precio} €</span>
+      {
+        extras.length > 0 && (
+          <details class="group mt-4" open>
+            <summary class="flex items-center justify-between mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <p class="font-bebas tracking-wider uppercase text-gray-950 text-xl">
+                {t("plato.extras")}
+              </p>
+              <div class="flex items-center gap-3">
+                <svg
+                  class="w-4 h-4 text-gray-500 transition-transform duration-300 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 9l7 7 7-7"
+                  />
+                </svg>
               </div>
-            ))}
-          </div>
-        </details>
-      )}
-      
+            </summary>
+
+            <div class="font-inco flex flex-col border border-[#e2ddd3] rounded-lg overflow-hidden mt-1 bg-[#f0ece5]">
+              {extras.map((extra) => (
+                <div class="flex justify-between items-center p-4 border-b border-[#e2ddd3] last:border-0 hover:bg-[#e8e4dc] transition-colors text-gray-900">
+                  <span>{extra.nombre}</span>
+                  <span class="text-gray-700">+ {extra.precio} €</span>
+                </div>
+              ))}
+            </div>
+          </details>
+        )
+      }
     </div>
   </div>
 </dialog>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    
+  document.addEventListener("DOMContentLoaded", () => {
     // 1. Abrir modales
-    const tarjetas = document.querySelectorAll('[data-modal-target]');
-    tarjetas.forEach(tarjeta => {
-      tarjeta.addEventListener('click', (e) => {
-        if ((e.target as HTMLElement).closest('.group')) return;
+    const tarjetas = document.querySelectorAll("[data-modal-target]");
+    tarjetas.forEach((tarjeta) => {
+      tarjeta.addEventListener("click", (e) => {
+        if ((e.target as HTMLElement).closest(".group")) return;
 
-        const modalId = tarjeta.getAttribute('data-modal-target');
+        const modalId = tarjeta.getAttribute("data-modal-target");
         const modal = document.getElementById(modalId) as HTMLDialogElement;
         if (modal) modal.showModal();
       });
     });
 
     // 2. Cerrar modales con la 'X'
-    const botonesCerrar = document.querySelectorAll('[data-modal-close]');
-    botonesCerrar.forEach(boton => {
-      boton.addEventListener('click', () => {
-        const modalId = boton.getAttribute('data-modal-close');
+    const botonesCerrar = document.querySelectorAll("[data-modal-close]");
+    botonesCerrar.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const modalId = boton.getAttribute("data-modal-close");
         const modal = document.getElementById(modalId) as HTMLDialogElement;
         if (modal) modal.close();
       });
     });
 
     // 3. Cerrar si se hace clic en el fondo oscuro
-    const modales = document.querySelectorAll('dialog');
-    modales.forEach(modal => {
-      modal.addEventListener('click', (e) => {
+    const modales = document.querySelectorAll("dialog");
+    modales.forEach((modal) => {
+      modal.addEventListener("click", (e) => {
         const dialogDimensions = modal.getBoundingClientRect();
         if (
           e.clientX < dialogDimensions.left ||
@@ -204,6 +306,5 @@ for (let i = 1; i <= 4; i++) {
         }
       });
     });
-
   });
 </script>

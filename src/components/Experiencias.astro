@@ -34,6 +34,26 @@ const experiencias = [
     tagsKey: 'experiencias.viajes.tags',
     webKey: 'experiencias.viajes.web',
     href: 'https://cuatroelementos.club/'
+  },
+  {
+    id: 'lunar',
+    logo: '/experiencias/LUNAR.jpeg',
+    lifestyle: '/experiencias/aquaglide-scenic.webp',
+    titleKey: 'experiencias.lunar.title',
+    descKey: 'experiencias.lunar.desc',
+    tagsKey: 'experiencias.lunar.tags',
+    webKey: 'experiencias.lunar.web',
+    href: 'https://lunarcablepark.com/es/index.html'
+  },
+  {
+    id: 'paramotor',
+    logo: '/experiencias/PARAMOTOR.jpeg',
+    lifestyle: '/experiencias/clubparamotor.webp',
+    titleKey: 'experiencias.paramotor.title',
+    descKey: 'experiencias.paramotor.desc',
+    tagsKey: 'experiencias.paramotor.tags',
+    webKey: 'experiencias.paramotor.web',
+    href: 'tel:+34647992059'
   }
 ];
 ---
@@ -49,7 +69,7 @@ const experiencias = [
       <div class="w-32 h-1.5 bg-[#e4a055] mx-auto mt-8"></div>
   </div>
 
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
     {experiencias.map(exp => (
       <div class="flex flex-col group h-full">
         <!-- Logo Arriba -->

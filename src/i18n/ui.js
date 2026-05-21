@@ -35,6 +35,16 @@ export const ui = {
         'experiencias.viajes.tags': 'Viajes en grupo o personalizados · Escapadas · Aventuras · Experiencias',
         'experiencias.viajes.web': 'VISITAR WEB',
 
+        'experiencias.lunar.title': 'Lunar Cable Park',
+        'experiencias.lunar.desc': 'El mejor cable de wakeboard de España en Cuevas del Almanzora. Un lugar perfecto para progresar con un circuito de 5 poleas de 600 metros, cable de aprendizaje y parque de plataformas hinchables, además de chiringuito, gimnasio y skatepark.',
+        'experiencias.lunar.tags': 'Wakeboard · Kayak · Paddle Surf · Parque Ninja · Chiringuito',
+        'experiencias.lunar.web': 'VISITAR WEB',
+
+        'experiencias.paramotor.title': 'Club Paramotor Águilas',
+        'experiencias.paramotor.desc': 'Disfruta de la libertad de volar sobre la costa de Águilas. Clases particulares y espectaculares vuelos biplaza para experimentar la sensación única de contemplar el mar y el paisaje desde el cielo.',
+        'experiencias.paramotor.tags': 'Clases Particulares · Vuelos Biplaza · Aventura',
+        'experiencias.paramotor.web': 'LLAMAR AHORA',
+
         'contacto.title': 'VISÍTANOS',
         'contacto.desc': 'Ven a vivir la experiencia Nomads Garden. Te esperamos con los brazos abiertos y las cocinas encendidas.',
         'contacto.ubicacion': 'UBICACIÓN',
@@ -83,6 +93,16 @@ export const ui = {
         'experiencias.viajes.tags': 'Group or personalized trips · Getaways · Adventures · Experiences',
         'experiencias.viajes.web': 'VISIT WEBSITE',
 
+        'experiencias.lunar.title': 'Lunar Cable Park',
+        'experiencias.lunar.desc': 'The best wakeboard cable park in Spain, located in Cuevas del Almanzora. A perfect place to progress with a 600-meter 5-tower circuit, a 2-tower learning cable, and an inflatable obstacle course, plus a beach bar, gym, and skatepark.',
+        'experiencias.lunar.tags': 'Wakeboard · Kayak · Paddle Surf · Ninja Park · Beach Bar',
+        'experiencias.lunar.web': 'VISIT WEBSITE',
+
+        'experiencias.paramotor.title': 'Club Paramotor Águilas',
+        'experiencias.paramotor.desc': 'Enjoy the freedom of flying over the Águilas coast. Private lessons and spectacular tandem flights to experience the unique sensation of viewing the sea and mountains from the sky.',
+        'experiencias.paramotor.tags': 'Private Lessons · Tandem Flights · Adventure',
+        'experiencias.paramotor.web': 'CALL NOW',
+
         'contacto.title': 'VISIT US',
         'contacto.desc': 'Come and live the Nomads Garden experience. We are waiting for you with open arms and the kitchens on.',
         'contacto.ubicacion': 'LOCATION',
@@ -115,6 +135,17 @@ export const ui = {
         'galeria.title': 'VOTRE ENDROIT CET ÉTÉ',
         'experiencias.subtitle': "Vivez l'aventure",
         'experiencias.title': 'EXPÉRIENCES',
+
+        'experiencias.lunar.title': 'Lunar Cable Park',
+        'experiencias.lunar.desc': 'Le meilleur téléski nautique d\'Espagne à Cuevas del Almanzora. Un endroit parfait pour progresser avec un parcours à 5 poulies de 600 mètres, un téléski d\'apprentissage et un parc aquatique gonflable, ainsi qu\'un bar de plage, une salle de sport et un skatepark.',
+        'experiencias.lunar.tags': 'Wakeboard · Kayak · Paddle Surf · Parc Ninja · Chiringuito',
+        'experiencias.lunar.web': 'VISITER LE SITE',
+
+        'experiencias.paramotor.title': 'Club Paramotor Águilas',
+        'experiencias.paramotor.desc': 'Profitez de la liberté de voler au-dessus de la côte d\'Águilas. Des cours particuliers et des vols spectaculaires en biplace pour vivre la sensation unique de contempler la mer et les montagnes depuis le ciel.',
+        'experiencias.paramotor.tags': 'Cours Particuliers · Vols en Biplace · Aventure',
+        'experiencias.paramotor.web': 'APPELER MAINTENANT',
+
         'contacto.title': 'RENDEZ-NOUS VISITE',
         'contacto.desc': 'Venez vivre l\'expérience Nomads Garden. Nous vous attendons à bras ouverts et les cuisines allumées.',
         'contacto.ubicacion': 'EMPLACEMENT',
@@ -147,6 +178,17 @@ export const ui = {
         'galeria.title': 'IHR PLATZ DIESEN SOMMER',
         'experiencias.subtitle': 'Erlebe das Abenteuer',
         'experiencias.title': 'ERFAHRUNGEN',
+
+        'experiencias.lunar.title': 'Lunar Cable Park',
+        'experiencias.lunar.desc': 'Der beste Wakeboard-Seilbahn-Park in Spanien in Cuevas del Almanzora. Ein perfekter Ort für Fortschritte mit einer 600 Meter langen 5-Mast-Anlage, einer Übungsbahn und einem aufblasbaren Wasserpark sowie Strandbar, Fitnessstudio und Skatepark.',
+        'experiencias.lunar.tags': 'Wakeboard · Kajak · Stand-Up-Paddling · Ninja-Park · Strandbar',
+        'experiencias.lunar.web': 'WEBSEITE BESUCHEN',
+
+        'experiencias.paramotor.title': 'Club Paramotor Águilas',
+        'experiencias.paramotor.desc': 'Genießen Sie die Freiheit des Fliegens über der Küste von Águilas. Einzelunterricht und spektakuläre Tandemflüge, um das einzigartige Gefühl zu erleben, das Meer und die Landschaft vom Himmel aus zu betrachten.',
+        'experiencias.paramotor.tags': 'Einzelunterricht · Tandemflüge · Abenteuer',
+        'experiencias.paramotor.web': 'JETZT ANRUFEN',
+
         'contacto.title': 'BESUCHEN SIE UNS',
         'contacto.desc': 'Kommen Sie und erleben Sie das Nomads Garden Erlebnis. Wir erwarten Sie mit offenen Armen und eingeschalteten Küchen.',
         'contacto.ubicacion': 'STANDORT',

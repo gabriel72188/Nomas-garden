@@ -20,30 +20,7 @@ export const ui = {
         'experiencias.subtitle': 'Vive la aventura',
         'experiencias.title': 'EXPERIENCIAS',
         
-        'experiencias.buceo.title': 'Centro de Buceo Isla Negra',
-        'experiencias.buceo.desc': 'Descubre el Mediterráneo desde abajo. Bautizos, cursos y salidas de buceo en algunos de los rincones más espectaculares de la costa de Águilas. Tanto si es tu primera inmersión como si ya eres un auténtico pez bajo el agua, Isla Negra te lleva a explorar otro mundo.',
-        'experiencias.buceo.tags': 'Cursos · Bautizos · Fun dives',
-        'experiencias.buceo.web': 'VISITAR WEB',
-
-        'experiencias.pickleball.title': 'Pickleball Águilas',
-        'experiencias.pickleball.desc': 'El deporte que está conquistando el mundo ya se juega en Águilas. Diversión, competición y buen ambiente en una actividad perfecta para todas las edades y niveles. Ideal para venir con amigos, conocer gente y engancharte desde el primer partido.',
-        'experiencias.pickleball.tags': 'Clases · Partidos · Eventos · Alquiler de pistas',
-        'experiencias.pickleball.web': 'VISITAR WEB',
-
-        'experiencias.viajes.title': 'Cuatro Elementos Viajes',
-        'experiencias.viajes.desc': 'Mucho más que una agencia de viajes. Viajes en grupo, escapadas y aventuras diseñadas para personas con ganas de salir de la rutina, conocer gente y vivir experiencias reales. Desde playas paradisíacas hasta montaña, buceo o viajes de aventura.',
-        'experiencias.viajes.tags': 'Viajes en grupo o personalizados · Escapadas · Aventuras · Experiencias',
-        'experiencias.viajes.web': 'VISITAR WEB',
-
-        'experiencias.lunar.title': 'Lunar Cable Park',
-        'experiencias.lunar.desc': 'El mejor cable de wakeboard de España en Cuevas del Almanzora. Un lugar perfecto para progresar con un circuito de 5 poleas de 600 metros, cable de aprendizaje y parque de plataformas hinchables, además de chiringuito, gimnasio y skatepark.',
-        'experiencias.lunar.tags': 'Wakeboard · Kayak · Paddle Surf · Parque Ninja · Chiringuito',
-        'experiencias.lunar.web': 'VISITAR WEB',
-
-        'experiencias.paramotor.title': 'Club Paramotor Águilas',
-        'experiencias.paramotor.desc': 'Disfruta de la libertad de volar sobre la costa de Águilas. Clases particulares y espectaculares vuelos biplaza para experimentar la sensación única de contemplar el mar y el paisaje desde el cielo.',
-        'experiencias.paramotor.tags': 'Clases Particulares · Vuelos Biplaza · Aventura',
-        'experiencias.paramotor.web': 'LLAMAR AHORA',
+        'experiencias.webButton': 'VISITAR WEB',
 
         'contacto.title': 'VISÍTANOS',
         'contacto.desc': 'Ven a vivir la experiencia Nomads Garden. Te esperamos con los brazos abiertos y las cocinas encendidas.',
@@ -78,30 +55,7 @@ export const ui = {
         'experiencias.subtitle': 'Live the adventure',
         'experiencias.title': 'EXPERIENCES',
         
-        'experiencias.buceo.title': 'Isla Negra Diving Center',
-        'experiencias.buceo.desc': 'Discover the Mediterranean from below. Baptisms, courses and diving trips in some of the most spectacular corners of the Águilas coast. Whether it\'s your first dive or you\'re already a real fish underwater, Isla Negra takes you to explore another world.',
-        'experiencias.buceo.tags': 'Courses · Baptisms · Fun dives',
-        'experiencias.buceo.web': 'VISIT WEBSITE',
-
-        'experiencias.pickleball.title': 'Pickleball Águilas',
-        'experiencias.pickleball.desc': 'The sport that is conquering the world is already played in Águilas. Fun, competition and good atmosphere in an activity perfect for all ages and levels. Ideal to come with friends, meet people and get hooked from the first game.',
-        'experiencias.pickleball.tags': 'Classes · Matches · Events · Court rental',
-        'experiencias.pickleball.web': 'VISIT WEBSITE',
-
-        'experiencias.viajes.title': 'Cuatro Elementos Travels',
-        'experiencias.viajes.desc': 'Much more than a travel agency. Group trips, getaways and adventures designed for people eager to get out of the routine, meet people and live real experiences. From paradisiacal beaches to mountains, diving or adventure trips.',
-        'experiencias.viajes.tags': 'Group or personalized trips · Getaways · Adventures · Experiences',
-        'experiencias.viajes.web': 'VISIT WEBSITE',
-
-        'experiencias.lunar.title': 'Lunar Cable Park',
-        'experiencias.lunar.desc': 'The best wakeboard cable park in Spain, located in Cuevas del Almanzora. A perfect place to progress with a 600-meter 5-tower circuit, a 2-tower learning cable, and an inflatable obstacle course, plus a beach bar, gym, and skatepark.',
-        'experiencias.lunar.tags': 'Wakeboard · Kayak · Paddle Surf · Ninja Park · Beach Bar',
-        'experiencias.lunar.web': 'VISIT WEBSITE',
-
-        'experiencias.paramotor.title': 'Club Paramotor Águilas',
-        'experiencias.paramotor.desc': 'Enjoy the freedom of flying over the Águilas coast. Private lessons and spectacular tandem flights to experience the unique sensation of viewing the sea and mountains from the sky.',
-        'experiencias.paramotor.tags': 'Private Lessons · Tandem Flights · Adventure',
-        'experiencias.paramotor.web': 'CALL NOW',
+        'experiencias.webButton': 'VISIT WEBSITE',
 
         'contacto.title': 'VISIT US',
         'contacto.desc': 'Come and live the Nomads Garden experience. We are waiting for you with open arms and the kitchens on.',
@@ -136,15 +90,7 @@ export const ui = {
         'experiencias.subtitle': "Vivez l'aventure",
         'experiencias.title': 'EXPÉRIENCES',
 
-        'experiencias.lunar.title': 'Lunar Cable Park',
-        'experiencias.lunar.desc': 'Le meilleur téléski nautique d\'Espagne à Cuevas del Almanzora. Un endroit parfait pour progresser avec un parcours à 5 poulies de 600 mètres, un téléski d\'apprentissage et un parc aquatique gonflable, ainsi qu\'un bar de plage, une salle de sport et un skatepark.',
-        'experiencias.lunar.tags': 'Wakeboard · Kayak · Paddle Surf · Parc Ninja · Chiringuito',
-        'experiencias.lunar.web': 'VISITER LE SITE',
-
-        'experiencias.paramotor.title': 'Club Paramotor Águilas',
-        'experiencias.paramotor.desc': 'Profitez de la liberté de voler au-dessus de la côte d\'Águilas. Des cours particuliers et des vols spectaculaires en biplace pour vivre la sensation unique de contempler la mer et les montagnes depuis le ciel.',
-        'experiencias.paramotor.tags': 'Cours Particuliers · Vols en Biplace · Aventure',
-        'experiencias.paramotor.web': 'APPELER MAINTENANT',
+        'experiencias.webButton': 'VISITER LE SITE',
 
         'contacto.title': 'RENDEZ-NOUS VISITE',
         'contacto.desc': 'Venez vivre l\'expérience Nomads Garden. Nous vous attendons à bras ouverts et les cuisines allumées.',
@@ -179,15 +125,7 @@ export const ui = {
         'experiencias.subtitle': 'Erlebe das Abenteuer',
         'experiencias.title': 'ERFAHRUNGEN',
 
-        'experiencias.lunar.title': 'Lunar Cable Park',
-        'experiencias.lunar.desc': 'Der beste Wakeboard-Seilbahn-Park in Spanien in Cuevas del Almanzora. Ein perfekter Ort für Fortschritte mit einer 600 Meter langen 5-Mast-Anlage, einer Übungsbahn und einem aufblasbaren Wasserpark sowie Strandbar, Fitnessstudio und Skatepark.',
-        'experiencias.lunar.tags': 'Wakeboard · Kajak · Stand-Up-Paddling · Ninja-Park · Strandbar',
-        'experiencias.lunar.web': 'WEBSEITE BESUCHEN',
-
-        'experiencias.paramotor.title': 'Club Paramotor Águilas',
-        'experiencias.paramotor.desc': 'Genießen Sie die Freiheit des Fliegens über der Küste von Águilas. Einzelunterricht und spektakuläre Tandemflüge, um das einzigartige Gefühl zu erleben, das Meer und die Landschaft vom Himmel aus zu betrachten.',
-        'experiencias.paramotor.tags': 'Einzelunterricht · Tandemflüge · Abenteuer',
-        'experiencias.paramotor.web': 'JETZT ANRUFEN',
+        'experiencias.webButton': 'WEBSEITE BESUCHEN',
 
         'contacto.title': 'BESUCHEN SIE UNS',
         'contacto.desc': 'Kommen Sie und erleben Sie das Nomads Garden Erlebnis. Wir erwarten Sie mit offenen Armen und eingeschalteten Küchen.',

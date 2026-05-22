@@ -1,127 +1,168 @@
 ---
-import { useTranslations } from '../i18n/ui.js';
+import { useTranslations } from "../i18n/ui.js";
 
-const { lang = 'es' } = Astro.props;
+const { lang = "es" } = Astro.props;
 const t = useTranslations(lang);
 
-const experiencias = [
-  {
-    id: 'buceo',
-    logo: '/experiencias/buceo.jpeg',
-    lifestyle: '/experiencias/lifestyle_buceo.png',
-    titleKey: 'experiencias.buceo.title',
-    descKey: 'experiencias.buceo.desc',
-    tagsKey: 'experiencias.buceo.tags',
-    webKey: 'experiencias.buceo.web',
-    href: 'https://buceoislanegra.com/'
-  },
-  {
-    id: 'pickleball',
-    logo: '/experiencias/pickleball.jpeg',
-    lifestyle: '/experiencias/lifestyle_pickleball.png',
-    titleKey: 'experiencias.pickleball.title',
-    descKey: 'experiencias.pickleball.desc',
-    tagsKey: 'experiencias.pickleball.tags',
-    webKey: 'experiencias.pickleball.web',
-    href: 'https://pickleballaguilas.club/es/'
-  },
-  {
-    id: 'viajes',
-    logo: '/experiencias/cuatroelementos.jpeg',
-    lifestyle: '/experiencias/lifestyle_viajes.png',
-    titleKey: 'experiencias.viajes.title',
-    descKey: 'experiencias.viajes.desc',
-    tagsKey: 'experiencias.viajes.tags',
-    webKey: 'experiencias.viajes.web',
-    href: 'https://cuatroelementos.club/'
-  },
-  {
-    id: 'lunar',
-    logo: '/experiencias/LUNAR.jpeg',
-    lifestyle: '/experiencias/aquaglide-scenic.webp',
-    titleKey: 'experiencias.lunar.title',
-    descKey: 'experiencias.lunar.desc',
-    tagsKey: 'experiencias.lunar.tags',
-    webKey: 'experiencias.lunar.web',
-    href: 'https://lunarcablepark.com/es/index.html'
-  },
-  {
-    id: 'paramotor',
-    logo: '/experiencias/PARAMOTOR.jpeg',
-    lifestyle: '/experiencias/clubparamotor.webp',
-    titleKey: 'experiencias.paramotor.title',
-    descKey: 'experiencias.paramotor.desc',
-    tagsKey: 'experiencias.paramotor.tags',
-    webKey: 'experiencias.paramotor.web',
-    href: 'https://share.google/zSnP7gc81LfWOYK0K'
+// 1. LLAMADA A LA API DE WORDPRESS
+const API_URL = import.meta.env.WP_API_URL;
+let experienciasWP = [];
+
+try {
+  const resExperiencias = await fetch(
+    `${API_URL}/experiencia?per_page=100&acf_format=standard`
+  );
+  if (resExperiencias.ok) {
+    experienciasWP = await resExperiencias.json();
+    if (!Array.isArray(experienciasWP)) {
+      experienciasWP = [];
+    }
   }
-];
+} catch (e) {
+  console.error("Error fetching experiences:", e);
+}
+
+// 2. ORDENAR POR EL CAMPO ACF "orden"
+if (Array.isArray(experienciasWP)) {
+  experienciasWP.sort((a, b) => {
+    const ordenA = a.acf?.orden ? parseInt(a.acf.orden) : 99;
+    const ordenB = b.acf?.orden ? parseInt(b.acf.orden) : 99;
+    return ordenA - ordenB;
+  });
+}
 ---
 
 <section id="experiencias" class="relative z-0 pt-32 pb-32 px-6 bg-[#111]">
   <div class="max-w-7xl mx-auto relative z-10 text-center mb-20">
-      <p class="font-sans font-bold text-[#e4a055] uppercase tracking-widest text-sm mb-4">
-        {t('experiencias.subtitle')}
-      </p>
-      <h2 class="font-bebas text-7xl md:text-9xl text-white tracking-wider leading-[0.8] uppercase">
-        {t('experiencias.title')}
-      </h2>
-      <div class="w-32 h-1.5 bg-[#e4a055] mx-auto mt-8"></div>
+    <p
+      class="font-sans font-bold text-[#e4a055] uppercase tracking-widest text-sm mb-4"
+    >
+      {t("experiencias.subtitle")}
+    </p>
+    <h2
+      class="font-bebas text-7xl md:text-9xl text-white tracking-wider leading-[0.8] uppercase"
+    >
+      {t("experiencias.title")}
+    </h2>
+    <div class="w-32 h-1.5 bg-[#e4a055] mx-auto mt-8"></div>
   </div>
 
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-    {experiencias.map(exp => (
-      <div class="flex flex-col group h-full">
-        <!-- Logo Arriba -->
-        <div class="flex justify-center mb-10 h-32 items-center">
-            <img 
-                src={exp.logo} 
-                alt="Logo" 
-                class="max-h-full max-w-[80%] object-contain rounded-2xl transition-transform duration-500 group-hover:scale-110" 
-            />
-        </div>
+  <div
+    class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16"
+  >
+    {
+      experienciasWP.map((exp) => {
+        const acf = exp.acf || {};
 
-        <!-- Imagen Lifestyle -->
-        <div class="relative aspect-[4/5] overflow-hidden rounded-3xl border-2 border-white/5 group-hover:border-[#e4a055] transition-all duration-500 shadow-2xl">
-            <img 
-                src={exp.lifestyle} 
-                alt={t(exp.titleKey)} 
-                class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 ease-out" 
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
-            
-            <div class="absolute bottom-0 left-0 p-8 w-full transform group-hover:-translate-y-2 transition-transform duration-500">
-                <h3 class="font-bebas text-4xl text-white tracking-widest uppercase">
-                    {t(exp.titleKey)}
-                </h3>
-            </div>
-        </div>
+        // ==========================================
+        // LÓGICA DE TRADUCCIÓN HÍBRIDA
+        // ==========================================
 
-        <!-- Descripción y Web -->
-        <div class="mt-8 flex flex-col flex-grow px-2">
-            <p class="text-gray-400 text-base leading-relaxed mb-6 font-medium group-hover:text-gray-200 transition-colors">
-                {t(exp.descKey)}
-            </p>
-            
-            <div class="mb-8">
-                <p class="text-[#e4a055] font-bold text-xs uppercase tracking-[0.2em] leading-relaxed">
-                    {t(exp.tagsKey)}
-                </p>
+        // Título
+        let titulo = acf.titulo_es || exp.title.rendered;
+        if (lang === "en" && acf.titulo_en) titulo = acf.titulo_en;
+        if (lang === "fr" && acf.titulo_fr) titulo = acf.titulo_fr;
+        if (lang === "de" && acf.titulo_de) titulo = acf.titulo_de;
+
+        // Descripción
+        let descripcion = acf.descripcion_es || "";
+        if (lang === "en" && acf.descripcion_en)
+          descripcion = acf.descripcion_en;
+        if (lang === "fr" && acf.descripcion_fr)
+          descripcion = acf.descripcion_fr;
+        if (lang === "de" && acf.descripcion_de)
+          descripcion = acf.descripcion_de;
+
+        // Actividades (Tags)
+        let actividades = acf.actividades_es || "";
+        if (lang === "en" && acf.actividades_en)
+          actividades = acf.actividades_en;
+        if (lang === "fr" && acf.actividades_fr)
+          actividades = acf.actividades_fr;
+        if (lang === "de" && acf.actividades_de)
+          actividades = acf.actividades_de;
+
+        // Imágenes y Enlaces
+        const logoUrl = acf.logo || "";
+        const lifestyleUrl = acf.imagen_fondo || "";
+        const enlaceWeb = acf.enlace_web || "#";
+
+        // Si no hay datos básicos, no renderizamos la tarjeta para evitar errores visuales
+        if (!logoUrl && !lifestyleUrl) return null;
+
+        return (
+          <div class="flex flex-col group h-full">
+            {/* Logo Arriba */}
+            <div class="flex justify-center mb-10 h-32 items-center">
+              {logoUrl && (
+                <img
+                  src={logoUrl}
+                  alt={titulo}
+                  class="max-h-full max-w-[80%] object-contain rounded-2xl transition-transform duration-500 group-hover:scale-110"
+                />
+              )}
             </div>
-            
-            <a 
-                href={exp.href} 
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mt-auto w-full inline-flex items-center justify-center border-2 border-[#e4a055] text-[#e4a055] py-4 px-8 font-bebas text-xl tracking-widest hover:bg-[#e4a055] hover:text-white transition-all duration-300 rounded-xl uppercase group-hover:shadow-[0_0_20px_rgba(228,160,85,0.3)]"
-            >
-                {t(exp.webKey)}
-                <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                </svg>
-            </a>
-        </div>
-      </div>
-    ))}
+
+            {/* Imagen Lifestyle */}
+            <div class="relative aspect-[4/5] overflow-hidden rounded-3xl border-2 border-white/5 group-hover:border-[#e4a055] transition-all duration-500 shadow-2xl">
+              {lifestyleUrl && (
+                <img
+                  src={lifestyleUrl}
+                  alt={titulo}
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
+                />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+
+              <div class="absolute bottom-0 left-0 p-8 w-full transform group-hover:-translate-y-2 transition-transform duration-500">
+                <h3
+                  class="font-bebas text-4xl text-white tracking-widest uppercase"
+                  set:html={titulo}
+                />
+              </div>
+            </div>
+
+            {/* Descripción y Web */}
+            <div class="mt-8 flex flex-col flex-grow px-2">
+              <p
+                class="text-gray-400 text-base leading-relaxed mb-6 font-medium group-hover:text-gray-200 transition-colors"
+                set:html={descripcion}
+              />
+
+              <div class="mb-8">
+                <p
+                  class="text-[#e4a055] font-bold text-xs uppercase tracking-[0.2em] leading-relaxed"
+                  set:html={actividades}
+                />
+              </div>
+
+              {enlaceWeb && enlaceWeb !== "#" && (
+                <a
+                  href={enlaceWeb}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-auto w-full inline-flex items-center justify-center border-2 border-[#e4a055] text-[#e4a055] py-4 px-8 font-bebas text-xl tracking-widest hover:bg-[#e4a055] hover:text-white transition-all duration-300 rounded-xl uppercase group-hover:shadow-[0_0_20px_rgba(228,160,85,0.3)]"
+                >
+                  {t("experiencias.webButton") || "VISITAR WEB"}
+                  <svg
+                    class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        );
+      })
+    }
   </div>
 </section>
